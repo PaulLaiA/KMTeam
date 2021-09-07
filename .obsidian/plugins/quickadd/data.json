@@ -1,0 +1,228 @@
+{
+  "choices": [
+    {
+      "id": "355db8a1-d6b2-4f23-b81f-f10be90a049b",
+      "name": "面試-Java容器",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/面試區/Java/Java容器篇.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "",
+          "面試區/面試題/Java"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
+    },
+    {
+      "id": "32bcfa9f-0662-4bb5-9851-3e3c4f7a4469",
+      "name": "面試-JavaJUC",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/面試區/Java/JavaJUC篇.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "面試區/面試題/Java"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
+    },
+    {
+      "id": "fe01725c-7a28-442b-8213-37fc481a6360",
+      "name": "面試-JavaJVM",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/面試區/Java/JavaJVM篇.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "面試區/面試題/Java"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
+    },
+    {
+      "id": "cd67dbcb-04c6-406d-9cc4-951b3b2d6f9f",
+      "name": "面試-Java基礎",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/面試區/Java/Java基础篇.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "面試區/面試題/Java"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
+    },
+    {
+      "id": "41d4f918-cd64-4c24-a80b-f438e533e635",
+      "name": "面試-MyBatis",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/面試區/MyBatis.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "面試區/面試題/MyBatis"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
+    },
+    {
+      "id": "9dc60e00-0890-41c8-9d54-96817c1a2bf9",
+      "name": "面試-Spring",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/面試區/Spring/Spring.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "面試區/面試題/Spring"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
+    },
+    {
+      "id": "add50b06-ec59-4795-8578-d9a6f294c7a3",
+      "name": "面試-Redis",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/面試區/Redis.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "面試區/面試題/Redis"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
+    },
+    {
+      "id": "e9abcca1-731c-4bc9-9dbd-002ffe89a356",
+      "name": "面試-MySQL",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/面試區/DB/MySQL.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
+    }
+  ],
+  "macros": []
+}

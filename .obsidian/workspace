@@ -1,0 +1,147 @@
+{
+  "main": {
+    "id": "caaad4826ff9a30d",
+    "type": "split",
+    "children": [
+      {
+        "id": "b402bbd564e246df",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "README.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "93c4a7737129d43c",
+    "type": "split",
+    "children": [
+      {
+        "id": "6832e9cdd6b14b7a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "373fce8389066161",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "dfd49bb792921564",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "asd",
+                "matchingCase": true,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "28dab8afb5aa6bcb",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 493
+  },
+  "right": {
+    "id": "b4502baf36dd29f6",
+    "type": "split",
+    "children": [
+      {
+        "id": "b60618dbb342a313",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1b4d5f82b45ed489",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "da218d10bab16cc3",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "33dfc4861a4e1cad",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "2fd96f4840e1ec5c",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "39900278ad9851b2",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "README.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 301
+  },
+  "active": "b402bbd564e246df",
+  "lastOpenFiles": [
+    "README.md",
+    "學習區/CI&CD/docker.md",
+    "面試區/面試題/Redis/redis常用数据结构以及使用场景？.md",
+    "面試區/面試題/Redis/Redis持久化有哪几种方式？持久化机制？各自优缺点？.md",
+    "面試區/面試題/Redis/单线程Redis为什么快？.md",
+    "面試區/面試題/大纲.md",
+    "面試區/面试题/大纲.md",
+    "个人区/随手记/Obsidian教学文章.md",
+    "个人区/随手记/收藏的网站.md",
+    "學習區/Java/Interface.md"
+  ]
+}

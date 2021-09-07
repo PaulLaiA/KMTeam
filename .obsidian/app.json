@@ -1,0 +1,12 @@
+{
+  "strictLineBreaks": true,
+  "showFrontmatter": true,
+  "foldHeading": true,
+  "foldIndent": true,
+  "showLineNumber": true,
+  "promptDelete": false,
+  "readableLineLength": false,
+  "fileSortOrder": "alphabetical",
+  "attachmentFolderPath": "附件區",
+  "alwaysUpdateLinks": true
+}
