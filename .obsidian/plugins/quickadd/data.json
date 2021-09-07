@@ -222,6 +222,34 @@
       },
       "openFile": true,
       "openFileInMode": "default"
+    },
+    {
+      "id": "b544d925-ae96-4b56-b565-1a2d794055de",
+      "name": "筆記-Redis",
+      "type": "Template",
+      "command": true,
+      "templatePath": "模板區/學習區/Redis.md",
+      "fileNameFormat": {
+        "enabled": false,
+        "format": ""
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "學習區/Redis"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false
+      },
+      "appendLink": false,
+      "incrementFileName": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "default"
     }
   ],
   "macros": []
