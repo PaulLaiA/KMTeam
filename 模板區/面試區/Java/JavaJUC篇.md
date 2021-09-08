@@ -1,6 +1,7 @@
 ---
-语言: Java
-分类: JUC
+界: Java
+门: JUC
+纲: 
 创建日期: {{DATE:YYYY-MM-DD}}
 ---
-#JUC
+#Java #JUC

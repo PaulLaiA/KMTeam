@@ -1,8 +1,9 @@
 ---
-语言: Framework
-分类: Redis
+界: DataBase
+门: NoSQL
+纲: Redis
 创建日期: {{DATE:YYYY-MM-DD}}
 簡述: 
 ---
-#MQ #Redis
+#DB #NoSQL #Redis
 

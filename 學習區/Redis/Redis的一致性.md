@@ -1,10 +1,11 @@
 ---
-语言: Framework
-分类: Redis
+界: DataBase
+门: NoSQL
+纲: Redis
 创建日期: 2021-09-07
 簡述: 如何處理Redis的雙一致性
 ---
-#MQ #Redis
+#DB #NoSQL #Redis 
 
 > 序
 ![[Pasted image 20210907172348.png]]

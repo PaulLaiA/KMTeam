@@ -1,7 +1,8 @@
 ---
-语言: Framework
-分类: JUC
+界: Framework
+门: Spring Framework
+纲: Spring
 创建日期: {{DATE:YYYY-MM-DD}}
 ---
-#Spring #Framework
+ #Framework #SpringFramework #Spring
 
