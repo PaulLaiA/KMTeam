@@ -1,8 +1,8 @@
 ---
-界: Framework
-门: MyBatis
+界: NoSQL
+门: Redis
 纲: 
-tags: ["#MyBatis","#BQ"]
+tags: ["#NoSQL/#Redis","#BQ"]
 aliases:
   - 
 date: {{DATE:YYYY-MM-DD}}

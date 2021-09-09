@@ -1,10 +1,9 @@
 ---
-界: Framework
-门: MyBatis
+界: Message Queue
+门: 
 纲: 
-tags: ["#MyBatis","#BQ"]
+tags: ["#MQ","#BQ"]
 aliases:
   - 
 date: {{DATE:YYYY-MM-DD}}
 ---
-

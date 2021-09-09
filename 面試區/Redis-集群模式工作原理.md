@@ -1,0 +1,20 @@
+---
+界: NoSQL
+门: Redis
+纲: 
+tags: ["#NoSQL/#Redis","#BQ"]
+aliases:
+  - 
+date: 2021-09-07
+---
+#DB #NoSQL #Redis
+
+# 集中式
+    
+# Gossip
+gossip协议包含多种消息：ping、pong、meet、fail
+
+-   meet：某个节点发送 meet 给新加⼊的节点，让新节点加⼊集群中，然后新节点就会开始与 其它节点进⾏通信。
+-   每个节点都会频繁给其它节点发送 ping，其中包含⾃⼰的状态还有⾃⼰维护的集群 元数据，互相通过 ping 交换元数据。
+-   返回 ping 和 meeet，包含⾃⼰的状态和其它信息，也⽤于信息⼴播和更新。
+-   某个节点判断另⼀个节点 fail 之后，就发送 fail 给其它节点，通知其它节点说，某个节 点宕机啦。

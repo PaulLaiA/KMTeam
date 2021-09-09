@@ -1,10 +1,9 @@
 ---
-界: Framework
-门: MyBatis
+界: Java
+门: JVM
 纲: 
-tags: ["#MyBatis","#BQ"]
+tags: ["#Java/#JVM","#BQ"]
 aliases:
   - 
 date: {{DATE:YYYY-MM-DD}}
 ---
-
