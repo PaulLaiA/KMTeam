@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-07
 ---
-#DB #NoSQL #Redis
 
 -   RDB：数据集快照方式半持久化
     -   优点：

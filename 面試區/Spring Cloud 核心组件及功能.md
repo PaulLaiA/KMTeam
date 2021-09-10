@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-08
 ---
-#MicroServices #SpringCloud
 
 Eureka：注册中心，Eureka Client会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表。
 

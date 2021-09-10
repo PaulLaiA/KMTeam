@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-08
 ---
-#JUC
 
 -   sleep是Thread中的方法，wait是Object中的方法。
 -   sleep方法不会释放锁，wait会释放锁，并进入等待队列。

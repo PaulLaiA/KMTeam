@@ -7,6 +7,5 @@ aliases:
   - 
 date: 2021-09-07
 ---
-#DB #NoSQL #Redis
 
 mset {user}:id 1 {user}:name zhangsan {user}:balance 1000

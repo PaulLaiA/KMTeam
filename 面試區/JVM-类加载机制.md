@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-08
 ---
-#Java #JVM
 
 -   加载（加载指的是将类的class文件读入到内存，并为之创建一个java.lang.Class对象）
 -   验证（验证字节流是否符合Class文件格式规范）

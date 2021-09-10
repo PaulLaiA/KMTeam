@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-08
 ---
- #Framework #SpringFramework #SpringBoot #Spring 
 
 -   减少xml配置，使用注解
 -   内嵌web容器

@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-08
 ---
-#MQ #ActiveMQ #RabbitMQ #RecketMQ #Kafka
 
 -   ActiveMQ
     

@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-07
 ---
-#DB #NoSQL #Redis
 
 ## 2.8之前
 1. 发送SYNC命令给master请求复制数据

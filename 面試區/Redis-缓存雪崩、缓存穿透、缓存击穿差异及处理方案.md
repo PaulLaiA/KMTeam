@@ -2,13 +2,13 @@
 界: NoSQL
 门: Redis
 纲: 
-tags: ["#NoSQL/#Redis","#BQ"]
+tags: ["#NoSQL/#Redis","#Cache","#BQ"]
 aliases:
   - 
 date: 2021-09-07
 
 ---
-#DB #NoSQL #Redis #Cache
+
 
 ## 缓存雪崩
 *大量key失效，透过缓存，直接访问db*

@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-08
 ---
- #Framework #SpringFramework #SpringMVC #MVC
 
 -   用户发起请求，请求到达前端控制器DispatcherServlet
 -   DispatcherServlet调用处理器映射器HandlerMapping

@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-07
 ---
-#DB #NoSQL #Redis
 
 -   纯内存操作
 -   核心基于非阻塞的IO多路复用机制

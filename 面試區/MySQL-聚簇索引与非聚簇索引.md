@@ -2,10 +2,10 @@
 界: DataBase
 门: MySQL
 纲: 
-创建日期: 2021-09-07
-tags: ["#demoTag","#DB/#MySQL"]
+tags: ["#DB/#MySQL","#BQ"]
 aliases:
   - 
+date: 2021-09-07
 ---
 
 索引B+ Tree的叶子节点存储了整行数据的是主键索引，也被称之为聚簇索引。而索引B+ Tree的叶子节点存储了主键的值的是非主键索引，也被称之为非聚簇索引

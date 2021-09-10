@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-08
 ---
-#Framework #MyBatis
 
 -   获取sqlSessionFactory对象
     -   加载配置文件封装为MappedStatement对象

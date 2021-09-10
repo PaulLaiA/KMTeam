@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-06
 ---
-#String 
 
 1. `indexOf()`: 返回指定字符的索引
 2. `charAt()`: 返回指定索引处的字符

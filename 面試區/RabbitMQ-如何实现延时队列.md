@@ -7,7 +7,6 @@ aliases:
   - 
 date: 2021-09-08
 ---
-#MQ #RabbitMQ
 
 -   TTL+死信队列
 -   开启插件
