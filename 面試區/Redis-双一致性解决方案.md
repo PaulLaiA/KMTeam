@@ -1,8 +1,11 @@
 ---
-界: DataBase
-门: NoSQL
-纲: RedisRedis
-创建日期: 2021-09-07
+界: NoSQL
+门: Redis
+纲: 
+tags: ["#NoSQL/#Redis","#BQ"]
+aliases:
+  - 
+date: 2021-09-07
 ---
 
 ### 決定雙一致性方案所需要提前資訊

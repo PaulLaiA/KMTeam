@@ -1,4 +1,13 @@
-#Interface 
+---
+界: DataBase
+门: NoSQL
+纲: Redis
+tags: ["#Java/Basic/Interface","#Note"]
+aliases:
+  - 
+date: 2021-09-07
+---
+ 
 # Java 接口
 
 接口（英文：Interface），在JAVA编程语言中是一个抽象类型，是抽象方法的集合，接口通常以interface来声明。一个类通过继承接口的方式，从而来继承接口的抽象方法。

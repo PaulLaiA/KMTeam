@@ -2,11 +2,11 @@
 界: DataBase
 门: NoSQL
 纲: Redis
-创建日期: 2021-09-07
-簡述: 如何處理Redis的雙一致性
+tags: ["#NoSQL/Redis","#Note"]
+aliases:
+  - 
+date: 2021-09-07
 ---
-#DB #NoSQL #Redis 
-
 > 序
 ![[Pasted image 20210907172348.png]]
 
