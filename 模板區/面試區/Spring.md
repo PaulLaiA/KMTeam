@@ -2,7 +2,7 @@
 界: Spring Framework
 门: Spring
 纲: 
-tags: ["#SpringFramework/#Spring","#BQ"]
+tags: ["#Spring","#BQ"]
 aliases:
   - 
 date: {{DATE:YYYY-MM-DD}}

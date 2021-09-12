@@ -5,6 +5,9 @@
 tags: ["#Spring","#SpringBoot","#BQ"]
 aliases:
   - 
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-09-08
 ---
 
+-   减少大量xml配置
+-   自动装配
+-   起步依赖

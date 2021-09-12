@@ -5,6 +5,5 @@
 tags: ["#NoSQL","#Redis","#BQ"]
 aliases:
   - 
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-09-07
 ---
-
