@@ -1,8 +1,8 @@
 ---
-界: DataBase
-门: NoSQL
-纲: Redis
-tags: ["#Java/Basic/Interface","#Note"]
+界: Java
+门: Interface
+纲: 
+tags: ["#Java","#Interface","#Note"]
 aliases:
   - 
 date: 2021-09-07

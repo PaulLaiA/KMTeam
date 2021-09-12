@@ -2,7 +2,7 @@
 界: DataBase
 门: NoSQL
 纲: Redis
-tags: ["#NoSQL/Redis","#Note"]
+tags: ["#NoSQL","#Redis","#Note"]
 aliases:
   - 
 date: 2021-09-07
