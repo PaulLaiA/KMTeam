@@ -1,7 +1,7 @@
 ---
 界: Spring Framework
-门: SpringMVC
-纲: 
+門: SpringMVC
+綱: 
 tags: ["#Spring","#SpringMVC","#BQ"]
 aliases:
   - 

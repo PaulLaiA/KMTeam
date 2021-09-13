@@ -1,7 +1,7 @@
 ---
 界: DataBase
-门: SQL
-纲: MySQL
+門: SQL
+綱: MySQL
 tags: ["#DB","#MySQL","#BQ"]
 aliases:
   - 

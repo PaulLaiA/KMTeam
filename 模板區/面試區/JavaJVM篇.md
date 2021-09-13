@@ -1,7 +1,7 @@
 ---
 界: Java
-门: JVM
-纲: 
+門: JVM
+綱: 
 tags: ["#JVM","#BQ"]
 aliases:
   - 

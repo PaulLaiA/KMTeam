@@ -1,7 +1,7 @@
 ---
 界: Framework
-门: MyBatis
-纲: 
+門: MyBatis
+綱: 
 tags: ["#MyBatis","#BQ"]
 aliases:
   - 

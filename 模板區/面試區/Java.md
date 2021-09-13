@@ -1,7 +1,7 @@
 ---
 界: Java
-门: Basic
-纲: 
+門: Basic
+綱: 
 tags: ["#Java","#BQ"]
 aliases:
   - 

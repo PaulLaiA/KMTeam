@@ -1,7 +1,7 @@
 ---
 界: Spring Framework
-门: Spring
-纲: 
+門: Spring
+綱: 
 tags: ["#Spring","#BQ"]
 aliases:
   - 

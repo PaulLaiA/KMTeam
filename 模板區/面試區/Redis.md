@@ -1,7 +1,7 @@
 ---
 界: NoSQL
-门: Redis
-纲: 
+門: Redis
+綱: 
 tags: ["#NoSQL","#Redis","#BQ"]
 aliases:
   - 

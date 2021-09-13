@@ -1,7 +1,7 @@
 ---
 界: Message Queue
-门: RabbitMQ
-纲: 
+門: RabbitMQ
+綱: 
 tags: ["#MQ","#RabbitMQ","#BQ"]
 aliases:
   - 

@@ -1,7 +1,7 @@
 ---
 界: Spring Framework
-门: Spring
-纲: 
+門: Spring
+綱: 
 tags: ["#Spring","#BQ"]
 aliases:
   - 
@@ -9,4 +9,4 @@ date: 2021-09-08
 ---
 
 
-	将xml中定义的bean信息封装为BeanDefinition对象放入一个map集合中
+	將xml中定義的bean資訊封裝為BeanDefinition對像放入一個map集合中

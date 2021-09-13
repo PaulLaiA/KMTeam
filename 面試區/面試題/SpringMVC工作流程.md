@@ -1,17 +1,17 @@
 ---
 界: Spring Framework
-门: SpringMVC
-纲: 
+門: SpringMVC
+綱: 
 tags: ["#Spring","#SpringMVC","#MVC","#BQ"]
 aliases:
   - 
 date: 2021-09-08
 ---
 
--   用户发起请求，请求到达前端控制器DispatcherServlet
--   DispatcherServlet调用处理器映射器HandlerMapping
--   HandlerMapping根据请求url找到找到具体的Handler生成处理器对象HandlerAdapter及拦截器返回给DispatcherServlet
--   DispatcherServlet调用Handler，返回ModelAndView给DispatcherServlet
--   DispatcherServlet将ModelAndView交给ViewResolver视图解析器进行解析返回View
--   DispatcherServlet对视图进行渲染，将数据模型填充到request域
--   向返回响应结果
+-   使用者發起請求，請求到達前端控制器DispatcherServlet
+-   DispatcherServlet呼叫處理器對映器HandlerMapping
+-   HandlerMapping根據請求url找到找到具體的Handler產生處理器對像HandlerAdapter及攔截器返回給DispatcherServlet
+-   DispatcherServlet呼叫Handler，返回ModelAndView給DispatcherServlet
+-   DispatcherServlet將ModelAndView交給ViewResolver檢視解析器進行解析返回View
+-   DispatcherServlet對檢視進行渲染，將數據模型填充到request域
+-   向返回響應結果

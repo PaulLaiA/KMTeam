@@ -1,7 +1,7 @@
 ---
 界: Message Queue
-门: 
-纲: 
+門: 
+綱: 
 tags: ["#MQ","#BQ"]
 aliases:
   - 
