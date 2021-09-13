@@ -32,7 +32,7 @@ date: 2021-09-07
         
         電商購物車：使用者id為key，商品id為field，商品數量為value
         
-        部落格關注取消關注：使用者id為key，被關注者id為field，被關注者名稱為value
+        部落格關注取消關註：使用者id為key，被關注者id為field，被關注者名稱為value
         
     -   list
         
