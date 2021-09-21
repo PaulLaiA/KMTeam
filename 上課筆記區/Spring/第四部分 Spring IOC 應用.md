@@ -1,0 +1,341 @@
+---
+界: Spring Framework
+门: Spring
+纲: 
+tags: ["#SpringFramework/#Spring","#IOC","#Note"]
+aliases:
+  - 
+date: {{DATE:YYYY-MM-DD}}
+---
+## 第 1 節 Spring IoC 基礎
+![[Pasted image 20210909150107.png]]
+
+### 1.1 BeanFactory 與 ApplicationContext區別
+BeanFactory是Spring框架中IoC容器的頂層接⼝,它只是⽤來定義⼀些基礎功能,定義⼀些基礎規範,⽽ApplicationContext是它的⼀個⼦接⼝，所以ApplicationContext是具備BeanFactory提供的全部功能的。
+通常，我們稱BeanFactory為SpringIOC的基礎容器，ApplicationContext是容器的⾼級接⼝，⽐BeanFactory要擁有更多的功能，⽐如說國際化⽀持和資源訪問（xml，java配置類）等等
+![[Pasted image 20210909150243.png]]
+
+啟動 Ioc 容器的方式
+-  java環境下啟動 Ioc 容器
+	- ClassPathXmlApplicationContext：從類的根路徑下加載配置⽂件（推薦使⽤）
+	- FileSystemXmlApplicationContext：從磁盤路徑上加載配置⽂件
+	- AnnotationConfigApplicationContext：純註解模式下啟動Spring容器
+- Web環境下啟動Ioc容器
+	- 從xml啟動容器
+	```xml
+	<!DOCTYPE web-app PUBLIC
+	"-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+	"http://java.sun.com/dtd/web-app_2_3.dtd" >
+	<web-app>
+	 <display-name>Archetype Created Web Application</display-name>
+	 <!--配置Spring ioc容器的配置⽂件-->
+	 <context-param>
+	 <param-name>contextConfigLocation</param-name>
+	 <param-value>classpath:applicationContext.xml</param-value>
+	 </context-param>
+	 <!--使⽤监听器启动Spring的IOC容器-->
+	 <listener>
+	 <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	 </listener>
+	</web-app>
+	```
+	- 從配置類啟動容器
+```xml
+	<!DOCTYPE web-app PUBLIC
+	"-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+	"http://java.sun.com/dtd/web-app_2_3.dtd" >
+	<web-app>
+	 <display-name>Archetype Created Web Application</display-name>
+	 <!--告诉ContextloaderListener知道我们使⽤注解的⽅式启动ioc容器-->
+	 <context-param>
+	 <param-name>contextClass</param-name>
+	 <param-value>org.springframework.web.context.support.AnnotationConfigWebAppli
+	cationContext</param-value>
+	 </context-param>
+
+	 <!--配置启动类的全限定类名-->
+	 <context-param>
+	 <param-name>contextConfigLocation</param-name>
+	 <param-value>com.lagou.edu.SpringConfig</param-value>
+	 </context-param>
+	 <!--使⽤监听器启动Spring的IOC容器-->
+	 <listener>
+	 <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	 </listener>
+	</web-app>
+```
+
+### 1.2 純xml模式
+本部分內容我們不採⽤⼀⼀講解知識點的⽅式，⽽是採⽤Spring IoC 純 xml 模式改造我們前⾯⼿寫的
+IoC 和 AOP 實現，在改造的過程中，把各個知識點串起來。
+
+- xml 文件頭
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+ https://www.springframework.org/schema/beans/spring-beans.xsd">
+```
+
+- 實例化Bean的三種方式
+	- 方式一：使用參數構造函數
+		在默認情況下，它會通過反射調⽤⽆參構造函數來創建對象。如果類中沒有⽆參構造函數，將創建失敗。
+```xml
+	<!--配置service对象-->
+	<bean id="userService" class="com.lagou.service.impl.TransferServiceImpl">
+	</bean>
+```
+
+
+- 方式二：使用靜態方法創建
+		
+在實際開發中，我們使⽤的對像有些時候並不是直接通過構造函數就可以創建出來的，它可能在創
+建的過程 中會做很多額外的操作。此時會提供⼀個創建對象的⽅法，恰好這個⽅法是static修飾的
+⽅法，即是此種情 況。
+例如，我們在做Jdbc操作時，會⽤到java.sql.Connection接⼝的實現類，如果是mysql數據庫，那
+麼⽤的就 是JDBC4Connection，但是我們不會去寫 JDBC4Connection connection = new
+JDBC4Connection() ，因 為我們要註冊驅動，還要提供URL和憑證信息，
+⽤ DriverManager.getConnection ⽅法來獲取連接。
+那麼在實際開發中，尤其早期的項⽬沒有使⽤Spring框架來管理對象的創建，但是在設計時使⽤了
+⼯⼚模式 解耦，那麼當接⼊spring之後，⼯⼚類創建對象就具有和上述例⼦相同特徵，即可採⽤
+此種⽅式配置。
+
+
+   ```xml
+	<!--使⽤静态⽅法创建对象的配置⽅式-->
+	<bean id="userService" class="com.lagou.factory.BeanFactory"
+ 	factory-method="getTransferService"></bean>
+   ```
+   - 方式三：使用實例化方法創建
+此種⽅式和上⾯靜態⽅法創建其實類似，區別是⽤於獲取對象的⽅法不再是static修飾的了，⽽是
+類中的⼀ 個普通⽅法。此種⽅式⽐靜態⽅法創建的使⽤⼏率要⾼⼀些。
+在早期開發的項⽬中，⼯⼚類中的⽅法有可能是靜態的，也有可能是⾮靜態⽅法，當是⾮靜態⽅法
+時，即可 採⽤下⾯的配置⽅式：
+   ```xml
+	<!--使⽤实例⽅法创建对象的配置⽅式-->
+	<bean id="beanFactory"
+	class="com.lagou.factory.instancemethod.BeanFactory"></bean>
+	<bean id="transferService" factory-bean="beanFactory" factorymethod="getTransferService"></bean>
+   ```
+   - Bean的X及⽣命週期
+	   - 作⽤範圍的改變
+			在spring框架管理Bean對象的創建時，Bean對象默認都是單例的，但是它⽀持配置的⽅式改
+			變作⽤範圍。作⽤範圍官⽅提供的說明如下圖：
+   			![[Pasted image 20210909152826.png]]
+	在上圖中提供的這些選項中，我們實際開發中⽤到最多的作⽤範圍就是singleton（單例模式）和
+prototype（原型模式，也叫多例模式）。配置⽅式參考下⾯的代碼：
+   ```xml
+	<!--配置service对象-->
+	<bean id="transferService"
+	class="com.lagou.service.impl.TransferServiceImpl" scope="singleton">
+	</bean>
+   ```
+ - 不同作用範圍的生命週期
+	- **單例模式：singleton**
+		- 對像出⽣：當創建容器時，對象就被創建了。
+		- 對象活著：只要容器在，對象⼀直活著。
+		- 對象死亡：當銷毀容器時，對象就被銷毀了。
+		- ⼀句話總結：單例模式的bean對象⽣命週期與容器相同。
+	- **多例模式：prototype**
+		- 對像出⽣：當使⽤對象時，創建新的對象實例。
+		- 對象活著：只要對像在使⽤中，就⼀直活著。
+		- 對象死亡：當對象⻓時間不⽤時，被java的垃圾回收器回收了。
+		- ⼀句話總結：多例模式的bean對象，spring框架只負責創建，不負責銷毀。
+
+- Bean標籤屬性
+	- 在基於xml的IoC配置中，bean標籤是最基礎的標籤。它表示了IoC容器中的⼀個對象。換句話說，如果⼀個對像想讓spring管理，在XML的配置中都需要使⽤此標籤配置，Bean標籤的屬性如下：
+		- id屬性： ⽤於給bean提供⼀個唯⼀標識。在⼀個標籤內部，標識必須唯⼀。
+		- class屬性：⽤於指定創建Bean對象的全限定類名。
+		- name屬性：⽤於給bean提供⼀個或多個名稱。多個名稱⽤空格分隔。
+		- factory-bean屬性：⽤於指定創建當前bean對象的⼯⼚bean的唯⼀標識。當指定了此屬性之後，class屬性失效。
+		- factory-method屬性：⽤於指定創建當前bean對象的⼯⼚⽅法，如配合factory-bean屬性使⽤，則class屬性失效。如配合class屬性使⽤，則⽅法必須是static的。
+		- scope屬性：⽤於指定bean對象的作⽤範圍。通常情況下就是singleton。當要⽤到多例模式時，可以配置為prototype。
+		- init-method屬性：⽤於指定bean對象的初始化⽅法，此⽅法會在bean對象裝配後調⽤。必須是⼀個⽆參⽅法。
+		- destory-method屬性：⽤於指定bean對象的銷毀⽅法，此⽅法會在bean對象銷毀前執⾏。它只能為scope是singleton時起作⽤。
+
+- DI 依賴注入的xml配置
+	- 依賴注入分類
+		- 按照注⼊的⽅式分類
+			- 構造函數注⼊：顧名思義，就是利⽤帶參構造函數實現對類成員的數據賦值。
+			- set⽅法注⼊：它是通過類成員的set⽅法實現數據的注⼊。 （使⽤最多的）
+		- 按照注⼊的數據類型分類
+			- 基本類型和String
+				- 注⼊的數據類型是基本類型或者是字符串類型的數據。
+			- 其他Bean類型
+				- 注⼊的數據類型是對像類型，稱為其他Bean的原因是，這個對像是要求出現在IoC容器中的。那麼針對當前Bean來說，就是其他Bean了。
+			- 複雜類型（集合類型）
+				- 注⼊的數據類型是Aarry，List，Set，Map，Properties中的⼀種類型。
+	- 依賴注⼊的配置實現之構造函數注⼊ 顧名思義，就是利⽤構造函數實現對類成員的賦值。它的使⽤要求是，類中提供的構造函數參數個數必須和配置的參數個數⼀致，且數據類型匹配。同時需要注意的是，當沒有⽆參構造時，則必須提供構造函數參數的注⼊，否則Spring框架會報錯。
+
+![[Pasted image 20210909155410.png]]
+
+在使⽤構造函數注⼊時，涉及的標籤是 constructor-arg ，該標籤有如下屬性：
+
+**name**：⽤於給構造函數中指定名稱的參數賦值。
+
+**index**：⽤於給構造函數中指定索引位置的參數賦值。
+
+**value**：⽤於指定基本類型或者String類型的數據。
+
+**ref**：⽤於指定其他Bean類型的數據。寫的是其他bean的唯⼀標識。
+- 依賴注⼊的配置實現之set⽅法注⼊
+顧名思義，就是利⽤字段的set⽅法實現賦值的注⼊⽅式。此種⽅式在實際開發中是使⽤最多的注
+⼊⽅式。
+
+![[Pasted image 20210909160800.png]]
+
+在使⽤set⽅法注⼊時，需要使⽤ property 標籤，該標籤屬性如下：
+
+**name**：指定注⼊時調⽤的set⽅法名稱。 （注：不包含set這三個字⺟,druid連接池指定屬性名稱）
+
+**value**：指定注⼊的數據。它⽀持基本類型和String類型。
+
+**ref**：指定注⼊的數據。它⽀持其他bean類型。寫的是其他bean的唯⼀標識。
+
+- 複雜數據類型注⼊ ⾸先，解釋⼀下複雜類型數據，它指的是集合類型數據。集合分為兩類，⼀類是List結構（數組結構），⼀類是Map接⼝（鍵值對） 。接下來就是注⼊的⽅式的選擇，只能在構造函數和set⽅法中選擇，我們的示例選⽤set⽅法注⼊。
+
+![[Pasted image 20210909155559.png]]
+
+![[Pasted image 20210909155629.png]]
+
+在List結構的集合數據注⼊時， ==array== , ==list== , ==set== 這三個標籤通⽤，另外注值的 value 標籤內部
+可以直接寫值，也可以使⽤ ==bean== 標籤配置⼀個對象，或者⽤ ==ref== 標籤引⽤⼀個已經配合的bean
+的唯⼀標識。
+
+在Map結構的集合數據注⼊時， ==map== 標籤使⽤ ==entry== ⼦標籤實現數據注⼊，== entry== 標籤可以使
+⽤**key**和**value**屬性指定存⼊map中的數據。使⽤**value-ref**屬性指定已經配置好的bean的引⽤。
+同時 ==entry== 標籤中也可以使⽤ ==ref== 標籤，但是不能使⽤ ==bean== 標籤。 ⽽ ==property== 標籤中不能使
+⽤ ==ref== 或者 ==bean== 標籤引⽤對象
+
+### 1.3 xml與註解相結合模式
+
+注意：
+1）實際企業開發中，純xml模式使⽤已經很少了
+
+2）引⼊註解功能，不需要引⼊額外的jar
+
+3）xml+註解結合模式，xml⽂件依然存在，所以，spring IOC容器的啟動仍然從加載xml開始
+
+4）哪些bean的定義寫在xml中，哪些bean的定義使⽤註解
+
+**第三⽅jar中的bean定義在xml，⽐如德魯伊數據庫連接池**
+
+**⾃⼰開發的bean定義使⽤註解**
+
+- xml形式 對應的註解形式
+![[Pasted image 20210909161517.png]]
+
+- DI 依賴注入的註解方式
+
+	@Autowired (推薦使用)
+	
+	@Autowired 為 Spring 提供的註解，需要導入包 org.springframework.beans.factory.annotation.Autowired。
+	
+	@Autowired採取的策略為按照類型注入
+	
+```java
+public class TransferServiceImpl { 
+	@Autowired 
+	private AccountDao accountDao; 
+}
+```
+如上代碼所示，這樣裝配回去spring容器中找到類型為AccountDao的類，然後將其註⼊進來。這樣會產⽣⼀個問題，當⼀個類型有多個bean值的時候，會造成⽆法選擇具體注⼊哪⼀個的情況，這個時候我們需要配合著@Qualifier使⽤。
+
+@Qualifier告訴Spring具體去裝配哪個對象。
+```java
+public class TransferServiceImpl { 
+	@Autowired 
+	@Qualifier(name="jdbcAccountDaoImpl") 
+	private AccountDao accountDao; }
+```
+
+這個時候我們就可以通過類型和名稱定位到我們想注⼊的對象。
+
+@Resource
+
+@Resource 註解由 J2EE 提供，需要導⼊包 javax.annotation.Resource。
+
+@Resource 默認按照 ByName ⾃動注⼊。
+```java
+public class TransferService {
+ @Resource 
+ private AccountDao accountDao;
+ @Resource(name="studentDao") 
+ private StudentDao studentDao;
+ @Resource(type="TeacherDao") 
+ private TeacherDao teacherDao;
+ @Resource(name="manDao",type="ManDao") 
+ private ManDao manDao;
+}
+```
+
+- 如果同時指定了 name 和 type，則從Spring上下⽂中找到唯⼀匹配的bean進⾏裝配，找不到則拋出異常。
+- 如果指定了 name，則從上下⽂中查找名稱（id）匹配的bean進⾏裝配，找不到則拋出異常。
+- 如果指定了 type，則從上下⽂中找到類似匹配的唯⼀bean進⾏裝配，找不到或是找到多個，都會拋出異常。
+- 如果既沒有指定name，⼜沒有指定type，則⾃動按照byName⽅式進⾏裝配；
+
+**注意:** @Resource 在 Jdk 11中已經移除，如果要使⽤，需要單獨引入jar包
+```xml
+<dependency>
+ <groupId>javax.annotation</groupId>
+ <artifactId>javax.annotation-api</artifactId>
+ <version>1.3.2</version>
+</dependency>
+```
+
+### 1.4 純註解模式
+改造xm+註解模式，將xml中遺留的內容全部以註解的形式遷移出去，最終刪除xml，從Java配置類啟動
+對應註解
+
+@Configuration 註解，表名當前類是⼀個配置類
+
+@ComponentScan 註解，替代 context:component-scan
+
+@PropertySource，引⼊外部属性配置⽂件 
+
+@Import 引⼊其他配置类 
+
+@Value 对变量赋值，可以直接赋值，也可以使⽤ ${} 读取资源配置⽂件中的信息 
+
+@Bean 将⽅法返回对象加⼊ SpringIOC 容器
+
+
+## 第 2 節 Spring IOC 高級特性
+### 2.1 lazy-Init 延遲加載
+Bean的延遲加載（延遲創建）
+
+ApplicationContext 容器的默認⾏為是在啟動服務器時將所有 singleton bean 提前進⾏實例化。提前實例化意味著作為初始化過程的⼀部分，ApplicationContext 實例會創建並配置所有的singletonbean。
+
+⽐如：
+```xml
+<bean id="testBean" class="cn.lagou.LazyBean" />
+該bean默認的設置為:
+<bean id="testBean" calss="cn.lagou.LazyBean" lazy-init="false" />
+```
+
+lazy-init="false"，⽴即加載，表示在spring啟動時，⽴刻進⾏實例化。
+
+如果不想讓⼀個singleton bean 在 ApplicationContext實現初始化時被提前實例化，那麼可以將bean
+設置為延遲實例化。
+
+```xml
+<bean id="testBean" calss="cn.lagou.LazyBean" lazy-init="true" />
+```
+
+設置 lazy-init 為 true 的 bean 將不會在 ApplicationContext 啟動時提前被實例化，⽽是第⼀次向容器通過 getBean 索取 bean 時實例化的。
+
+如果⼀個設置了⽴即加載的 bean1，引⽤了⼀個延遲加載的 bean2 ，那麼 bean1 在容器啟動時被實例化，⽽ bean2 由於被 bean1 引⽤，所以也被實例化，這種情況也符合延時加載的 bean 在第⼀次調⽤時才被實例化的規則。
+
+也可以在容器層次中通過在 元素上使⽤ "default-lazy-init" 屬性來控制延時初始化。如下⾯配置：
+
+```xml
+<beans default-lazy-init="true">
+ <!-- no beans will be eagerly pre-instantiated... -->
+</beans>
+```
+
+如果⼀個 bean 的 scope 屬性為 scope="pototype" 時，即使設置了 lazy-init="false"，容器啟動時也不
+會實例化bean，⽽是調⽤ getBean ⽅法實例化的。
+應⽤場景
+（1）開啟延遲加載⼀定程度提⾼容器啟動和運轉性能
