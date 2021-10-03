@@ -78,9 +78,9 @@ IoC 和 AOP 實現，在改造的過程中，把各個知識點串起來。
  https://www.springframework.org/schema/beans/spring-beans.xsd">
 ```
 
-- 實例化Bean的三種方式
-	- 方式一：使用參數構造函數
-		在默認情況下，它會通過反射調⽤⽆參構造函數來創建對象。如果類中沒有⽆參構造函數，將創建失敗。
+**實例化Bean的三種方式**
+- 方式一：使用參數構造函數
+	在默認情況下，它會通過反射調⽤⽆參構造函數來創建對象。如果類中沒有⽆參構造函數，將創建失敗。
 ```xml
 	<!--配置service对象-->
 	<bean id="userService" class="com.lagou.service.impl.TransferServiceImpl">
@@ -211,6 +211,7 @@ prototype（原型模式，也叫多例模式）。配置⽅式參考下⾯的�
 ### 1.3 xml與註解相結合模式
 
 注意：
+
 1）實際企業開發中，純xml模式使⽤已經很少了
 
 2）引⼊註解功能，不需要引⼊額外的jar
@@ -285,7 +286,7 @@ public class TransferService {
 ```
 
 ### 1.4 純註解模式
-改造xm+註解模式，將xml中遺留的內容全部以註解的形式遷移出去，最終刪除xml，從Java配置類啟動
+改造xml+註解模式，將xml中遺留的內容全部以註解的形式遷移出去，最終刪除xml，從Java配置類啟動
 對應註解
 
 @Configuration 註解，表名當前類是⼀個配置類
@@ -339,3 +340,159 @@ lazy-init="false"，⽴即加載，表示在spring啟動時，⽴刻進⾏實例
 會實例化bean，⽽是調⽤ getBean ⽅法實例化的。
 應⽤場景
 （1）開啟延遲加載⼀定程度提⾼容器啟動和運轉性能
+（2）對於不常使⽤的 Bean 設置延遲加載，這樣偶爾使⽤的時候再加載，不必要從⼀開始該 Bean 就佔⽤資源
+
+
+### 2.1 FactoryBean 和 BeanFactory
+
+BeanFactory接⼝是容器的頂級接⼝，定義了容器的⼀些基礎⾏為，負責⽣產和管理Bean的⼀個⼯⼚，具體使⽤它下⾯的⼦接⼝類型，⽐如ApplicationContext；此處我們重點分析FactoryBean
+
+Spring中Bean有兩種，⼀種是普通Bean，⼀種是⼯⼚Bean（FactoryBean），FactoryBean可以⽣成某⼀個類型的Bean實例（返回給我們），也就是說我們可以藉助於它⾃定義Bean的創建過程。
+
+Bean創建的三種⽅式中的靜態⽅法和實例化⽅法和FactoryBean作⽤類似，FactoryBean使⽤較多，尤其在Spring框架⼀些組件中會使⽤，還有其他框架和Spring框架整合時使⽤
+
+```java
+// 可以让我们⾃定义Bean的创建过程（完成复杂Bean的定义）
+public interface FactoryBean<T> {
+ @Nullable
+ // 返回FactoryBean创建的Bean实例，如果isSingleton返回true，则该实例会放到Spring容器
+的单例对象缓存池中Map
+ T getObject() throws Exception;
+ @Nullable
+ // 返回FactoryBean创建的Bean类型
+ Class<?> getObjectType();
+ // 返回作⽤域是否单例
+ default boolean isSingleton() {
+ return true;
+ }
+}
+```
+
+Company 類
+```java
+package com.lagou.edu.pojo;
+/**
+* @author 应癫
+*/
+public class Company {
+ private String name;
+ private String address;
+ private int scale;
+ public String getName() {
+ 	return name;
+ }
+ public void setName(String name) {
+ 	this.name = name;
+ }
+ public String getAddress() {
+ 	return address;
+ }
+ public void setAddress(String address) {
+ 	this.address = address;
+ }
+ public int getScale() {
+ 	return scale;
+ }
+ public void setScale(int scale) {
+ 	this.scale = scale;
+ }
+ @Override
+ public String toString() {
+	 return "Company{" +
+	 "name='" + name + '\'' +
+	 ", address='" + address + '\'' +
+	 ", scale=" + scale +
+	 '}';
+ }
+}
+```
+
+CompanyFactoryBean類
+```java
+package com.lagou.edu.factory;
+import com.lagou.edu.pojo.Company;
+import org.springframework.beans.factory.FactoryBean;
+/**
+* @author 应癫
+*/
+public class CompanyFactoryBean implements FactoryBean<Company> {
+ private String companyInfo; // 公司名称,地址,规模
+ public void setCompanyInfo(String companyInfo) {
+ this.companyInfo = companyInfo;
+ }
+ @Override
+ public Company getObject() throws Exception {
+ // 模拟创建复杂对象Company
+ Company company = new Company();
+ String[] strings = companyInfo.split(",");
+ company.setName(strings[0]);
+ company.setAddress(strings[1]);
+ company.setScale(Integer.parseInt(strings[2]));
+ return company;
+ }
+ @Override
+ public Class<?> getObjectType() {
+ return Company.class;
+ }
+ @Override
+ public boolean isSingleton() {
+ return true;
+ }
+}
+```
+
+xml配置
+```xml
+<bean id="companyBean" class="com.lagou.edu.factory.CompanyFactoryBean">
+ <property name="companyInfo" value="拉勾,中关村,500"/>
+</bean>
+```
+測試，獲取FactoryBean產生的對象
+```java
+Object companyBean = applicationContext.getBean("companyBean");
+System.out.println("bean:" + companyBean);
+// 结果如下
+bean:Company{name='拉勾', address='中关村', scale=500}
+```
+
+### 2.3 後置處理器
+
+Spring提供了兩種後處理bean的擴展接⼝，分別為 BeanPostProcessor 和BeanFactoryPostProcessor，兩者在使⽤上是有所區別的。
+
+⼯⼚初始化（BeanFactory）—> Bean對象
+
+在BeanFactory初始化之後可以使⽤BeanFactoryPostProcessor進⾏後置處理做⼀些事情
+
+在Bean對象實例化（並不是Bean的整個⽣命週期完成）之後可以使⽤BeanPostProcessor進⾏後置處理做⼀些事情
+
+注意：對像不⼀定是springbean，⽽springbean⼀定是個對象
+
+SpringBean的⽣命週期
+
+#### 2.3.1 BeanPostProcessor
+BeanPostProcessor是針對Bean級別的處理，可以針對某個具體的Bean.
+![[Pasted image 20211003141933.png]]
+
+該接⼝提供了兩個⽅法，分別在Bean的初始化⽅法前和初始化⽅法後執⾏，具體這個初始化⽅法指的是什麼⽅法，類似我們在定義bean時，定義了init-method所指定的⽅法
+
+定義⼀個類實現了BeanPostProcessor，默認是會對整個Spring容器中所有的bean進⾏處理。如果要對具體的某個bean處理，可以通過⽅法參數判斷，兩個類型參數分別為Object和String，
+
+第⼀個參數是每個bean的實例，第⼆個參數是每個bean的name或者id屬性的值。所以我們可以通過第⼆個參數，來判斷我們將要處理的具體的bean。
+
+注意：處理是發⽣在Spring容器的實例化和依賴注⼊之後。
+
+#### 2.3.2 BeanFactoryPostProcessor
+BeanFactory級別的處理，是針對整個Bean的⼯⼚進⾏處理，典型應⽤: PropertyPlaceholderConfigurer
+![[Pasted image 20211003142117.png]]
+
+此接⼝只提供了⼀個⽅法，⽅法參數為ConfigurableListableBeanFactory，該參數類型定義了⼀些⽅法
+![[Pasted image 20211003142147.png]]
+
+其中有個⽅法名為getBeanDefinition的⽅法，我們可以根據此⽅法，找到我們定義bean 的BeanDefinition對象。然後我們可以對定義的屬性進⾏修改，以下是BeanDefinition中的⽅法
+![[Pasted image 20211003142226.png]]
+
+⽅法名字類似我們bean標籤的屬性，setBeanClassName對應bean標籤中的class屬性，所以當我們拿到BeanDefinition對象時，我們可以⼿動修改bean標籤中所定義的屬性值。
+
+BeanDefinition對象：我們在 XML 中定義的 bean標籤，Spring 解析 bean 標籤成為⼀個 JavaBean，這個JavaBean 就是 BeanDefinition
+
+注意：調⽤ BeanFactoryPostProcessor ⽅法時，這時候bean還沒有實例化，此時 bean 剛被解析成BeanDefinition對象

@@ -72,18 +72,21 @@ Spring是⼀個分層⾮常清晰並且依賴關係、職責定位⾮常明確�
 
 ![[Spring 第一部分 - Spring 的核心結構.png]]
 
--   Spring核⼼容器（Core Container） 容器是Spring框架最核⼼的部分，它管理著Spring應⽤中 bean的創建、配置和管理。在該模塊中，包括了Spring bean⼯⼚，它為Spring提供了DI的功能。 基於bean⼯⼚，我們還會發現有多種Spring應⽤上下⽂的實現。所有的Spring模塊都構建於核⼼ 容器之上。
-    
--   ⾯向切⾯編程（AOP）/Aspects Spring對⾯向切⾯編程提供了豐富的⽀持。這個模塊是Spring應 ⽤系統中開發切⾯的基礎，與DI⼀樣，AOP可以幫助應⽤對象解耦。
-    
+-   Spring核⼼容器（Core Container） 
+	- 容器是Spring框架最核⼼的部分，它管理著Spring應⽤中 bean的創建、配置和管理。在該模塊中，包括了Spring bean⼯⼚，它為Spring提供了DI的功能。 基於bean⼯⼚，我們還會發現有多種Spring應⽤上下⽂的實現。所有的Spring模塊都構建於核⼼ 容器之上。
+	    
+-   ⾯向切⾯編程（AOP）/Aspects Spring
+	- 對⾯向切⾯編程提供了豐富的⽀持。這個模塊是Spring應 ⽤系統中開發切⾯的基礎，與DI⼀樣，AOP可以幫助應⽤對象解耦。
+	    
 -   數據訪問與集成（Data Access/Integration）
-    
-    Spring的JDBC和DAO模塊封裝了⼤量樣板代碼，這樣可以使得數據庫代碼變得簡潔，也可以更專 注於我們的業務，還可以避免數據庫資源釋放失敗⽽引起的問題。另外，Spring AOP為數據訪問 提供了事務管理服務，同時Spring還對ORM進⾏了集成，如Hibernate、MyBatis等。該模塊由 JDBC、Transactions、ORM、OXM 和 JMS 等模塊組成。
-    
--   Web 該模塊提供了SpringMVC框架給Web應⽤，還提供了多種構建和其它應⽤交互的遠程調⽤⽅ 案。 SpringMVC框架在Web層提升了應⽤的松耦合⽔平。
-    
--   Test 為了使得開發者能夠很⽅便的進⾏測試，Spring提供了測試模塊以致⼒於Spring應⽤的測 試。通過該模塊，Spring為使⽤Servlet、JNDI等編寫單元測試提供了⼀系列的mock對象實現。
-    
+	- Spring的JDBC和DAO模塊封裝了⼤量樣板代碼，這樣可以使得數據庫代碼變得簡潔，也可以更專 注於我們的業務，還可以避免數據庫資源釋放失敗⽽引起的問題。另外，Spring AOP為數據訪問 提供了事務管理服務，同時Spring還對ORM進⾏了集成，如Hibernate、MyBatis等。該模塊由 JDBC、Transactions、ORM、OXM 和 JMS 等模塊組成。
+	    
+-   Web 
+	- 該模塊提供了SpringMVC框架給Web應⽤，還提供了多種構建和其它應⽤交互的遠程調⽤⽅ 案。 SpringMVC框架在Web層提升了應⽤的松耦合⽔平。
+	    
+-   Test 
+	- 為了使得開發者能夠很⽅便的進⾏測試，Spring提供了測試模塊以致⼒於Spring應⽤的測 試。通過該模塊，Spring為使⽤Servlet、JNDI等編寫單元測試提供了⼀系列的mock對象實現。
+	    
 
 ## 第 5 節 Spring 框架版本
 

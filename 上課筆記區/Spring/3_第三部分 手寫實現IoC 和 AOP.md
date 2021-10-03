@@ -88,8 +88,7 @@ date: {{DATE:YYYY-MM-DD}}
     * @author 应癫  
     */  
     public interface TransferService {  
-     void transfer(String fromCardNo,String toCardNo,int money) throws  
-    Exception;  
+     void transfer(String fromCardNo,String toCardNo,int money) throws Exception;  
     }
     
     package com.lagou.edu.service.impl;  
@@ -103,14 +102,13 @@ date: {{DATE:YYYY-MM-DD}}
     public class TransferServiceImpl implements TransferService {  
      private AccountDao accountDao = new JdbcAccountDaoImpl();  
      @Override  
-     public void transfer(String fromCardNo, String toCardNo, int money)  
-    throws Exception {  
-     Account from = accountDao.queryAccountByCardNo(fromCardNo);  
-     Account to = accountDao.queryAccountByCardNo(toCardNo);  
-     from.setMoney(from.getMoney()-money);  
-     to.setMoney(to.getMoney()+money);  
-     accountDao.updateAccountByCardNo(from);  
-     accountDao.updateAccountByCardNo(to);  
+     public void transfer(String fromCardNo, String toCardNo, int money) throws Exception {  
+			 Account from = accountDao.queryAccountByCardNo(fromCardNo);  
+			 Account to = accountDao.queryAccountByCardNo(toCardNo);  
+			 from.setMoney(from.getMoney()-money);  
+			 to.setMoney(to.getMoney()+money);  
+			 accountDao.updateAccountByCardNo(from);  
+			 accountDao.updateAccountByCardNo(to);  
      }  
     }
 ```    
@@ -142,88 +140,39 @@ date: {{DATE:YYYY-MM-DD}}
      @Override  
      public Account queryAccountByCardNo(String cardNo) throws Exception {  
      //从连接池获取连接  
-     Connection con = DruidUtils.getInstance().getConnection();  
-     String sql = "select * from account where cardNo=?";  
-     PreparedStatement preparedStatement = con.prepareStatement(sql);  
-     preparedStatement.setString(1,cardNo);  
-     ResultSet resultSet = preparedStatement.executeQuery();  
-     Account account = new Account();  
-     while(resultSet.next()) {  
-     account.setCardNo(resultSet.getString("cardNo"));  
-     account.setName(resultSet.getString("name"));  
-     account.setMoney(resultSet.getInt("money"));  
-     }  
-     resultSet.close();  
-     preparedStatement.close();  
-     con.close();  
-     return account;  
+			 Connection con = DruidUtils.getInstance().getConnection();  
+			 String sql = "select * from account where cardNo=?";  
+			 PreparedStatement preparedStatement = con.prepareStatement(sql);  
+			 preparedStatement.setString(1,cardNo);  
+			 ResultSet resultSet = preparedStatement.executeQuery();  
+			 Account account = new Account();  
+			 while(resultSet.next()) {  
+				 account.setCardNo(resultSet.getString("cardNo"));  
+				 account.setName(resultSet.getString("name"));  
+				 account.setMoney(resultSet.getInt("money"));  
+			 }  
+			 resultSet.close();  
+			 preparedStatement.close();  
+			 con.close();  
+			 return account;  
      }  
     ​  
      @Override  
      public int updateAccountByCardNo(Account account) throws Exception {  
-     //从连接池获取连接  
-     Connection con = DruidUtils.getInstance().getConnection();  
-     String sql = "update account set money=? where cardNo=?";  
-     PreparedStatement preparedStatement = con.prepareStatement(sql);  
-     preparedStatement.setInt(1,account.getMoney());  
-     preparedStatement.setString(2,account.getCardNo());  
-     int i = preparedStatement.executeUpdate();  
-     preparedStatement.close();  
-     con.close();  
+			 //从连接池获取连接  
+			 Connection con = DruidUtils.getInstance().getConnection();  
+			 String sql = "update account set money=? where cardNo=?";  
+			 PreparedStatement preparedStatement = con.prepareStatement(sql);  
+			 preparedStatement.setInt(1,account.getMoney());  
+			 preparedStatement.setString(2,account.getCardNo());  
+			 int i = preparedStatement.executeUpdate();  
+			 preparedStatement.close();  
+			 con.close();  
      return i;  
      }  
     }
 ```
 
-
--   JdbcAccountDaoImpl（Jdbc技術實現Dao層接口）
-```java
-    package com.lagou.edu.dao.impl;  
-    import com.lagou.edu.pojo.Account;  
-    import com.lagou.edu.dao.AccountDao;  
-    import com.lagou.edu.utils.DruidUtils;  
-    import java.sql.Connection;  
-    import java.sql.PreparedStatement;  
-    import java.sql.ResultSet;  
-    /**  
-    * @author 应癫  
-    */  
-    public class JdbcAccountDaoImpl implements AccountDao {  
-     @Override  
-     public Account queryAccountByCardNo(String cardNo) throws Exception {  
-     //从连接池获取连接  
-     Connection con = DruidUtils.getInstance().getConnection();  
-     String sql = "select * from account where cardNo=?";  
-     PreparedStatement preparedStatement = con.prepareStatement(sql);  
-     preparedStatement.setString(1,cardNo);  
-     ResultSet resultSet = preparedStatement.executeQuery();  
-     Account account = new Account();  
-     while(resultSet.next()) {  
-     account.setCardNo(resultSet.getString("cardNo"));  
-     account.setName(resultSet.getString("name"));  
-     account.setMoney(resultSet.getInt("money"));  
-     }  
-     resultSet.close();  
-     preparedStatement.close();  
-     con.close();  
-     return account;  
-     }  
-    ​  
-     @Override  
-     public int updateAccountByCardNo(Account account) throws Exception {  
-     //从连接池获取连接  
-     Connection con = DruidUtils.getInstance().getConnection();  
-     String sql = "update account set money=? where cardNo=?";  
-     PreparedStatement preparedStatement = con.prepareStatement(sql);  
-     preparedStatement.setInt(1,account.getMoney());  
-     preparedStatement.setString(2,account.getCardNo());  
-     int i = preparedStatement.executeUpdate();  
-     preparedStatement.close();  
-     con.close();  
-     return i;  
-     }  
-    }
-```    
 
 ## 第 5 節 銀行轉帳案例代碼問題分析
 
