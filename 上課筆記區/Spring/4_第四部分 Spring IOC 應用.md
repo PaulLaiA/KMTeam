@@ -7,6 +7,9 @@ aliases:
   - 
 date: {{DATE:YYYY-MM-DD}}
 ---
+
+# 第四部分 Spring IoC 應用
+
 ## 第 1 節 Spring IoC 基礎
 ![[Pasted image 20210909150107.png]]
 
