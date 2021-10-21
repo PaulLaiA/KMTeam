@@ -1,15 +1,33 @@
 ---
-分类: Go
-章节: Go 的目录
-tags:
-  - Go
-  - Node
-date: 2021-10-14asd
+Date: 2021-10-22
+aliases: []
+---
+
+# Metadata
+
+**Title** 	  :: Go
+
+**Author** :: #dPaulLai 
+
+**Classification** :: #Go #Basic 
+
+**Status**  :: #🌱 
+
+**Type** 	:: #Node 
+
+**Topics** :: #Learn 
+
+**Previous** :: 
+
+**ParentNode** :: [[Study_dPaul]]
+
 ---
 
 ## Go 学习目录
 
-~~~dataview
-list from "Study_dPaul/Golang"
-sort file.name asc
-~~~
+```dataview
+table 	Title,Author,Classification,Status,Type,Topics,Previous
+from 	"Study_dPaul"
+where 	contains(ParentNode , [[Go]]) and contains(Type , "#Node")
+sort 	file.name asc
+```
