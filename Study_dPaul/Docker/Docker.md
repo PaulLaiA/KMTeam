@@ -1,20 +1,18 @@
 ---
-分类: Docker
-章节: Go 目录
-tags: 
-  -	Docker
-  -	Node
-date: 2021-10-14
+Date: 2021-10-22
+aliases: []
 ---
 
-# Docker 大纲
+# Metadata
 
-## 目录清册
-```dataview
-list from "Study_dPaul/Docker"
-where !contains(tags,"Node")
-sort file.name asc
-```
+**Title** :: Docker
 
-## 大纲
+**Author** :: #dPaulLai
 
+**Status** :: #🌞 
+
+**Type** :: #Node
+
+**ParentNode** :: [[Study_dPaul]]
+
+---

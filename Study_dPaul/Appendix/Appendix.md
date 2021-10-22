@@ -1,11 +1,11 @@
 ---
-Date: {{DATE:YYYY-MM-DD}}
+Date: 2021-10-22
 aliases: []
 ---
 
 # Metadata
 
-**Title** :: Go 節點模板
+**Title** :: Appendix 簡介
 
 **Author** :: #dPaulLai
 
@@ -13,6 +13,6 @@ aliases: []
 
 **Type** :: #Node
 
-**ParentNode** ::
+**ParentNode** :: [[Study_dPaul]]
 
 ---
