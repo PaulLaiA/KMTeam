@@ -5,13 +5,13 @@ aliases: []
 
 # Metadata
 
-**Title** :: 通用式節點模板
+**Title** 	  :: 通用式節點模板
 
 **Author** :: #dPaulLai
 
-**Status** :: #🌱
+**Status** 	:: #🌱
 
-**Type** :: #Node
+**Type** 	:: #Node
 
 **ParentNode** ::
 

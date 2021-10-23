@@ -9,7 +9,7 @@ aliases: []
 
 **Author** :: #dPaulLai
 
-**Classification** :: #Appendix
+**Classification** :: [[Study_dPaul/Appendix/Appendix|Appendix]]
 
 **Status** :: #🌱
 
