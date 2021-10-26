@@ -48,7 +48,7 @@ date: {{DATE:YYYY-MM-DD}}
     */  
     @WebServlet(name="transferServlet",urlPatterns = "/transferServlet")  
     public class TransferServlet extends HttpServlet {  
-     // 1. 实例化service层对象  
+     // 1. 实例化 service 层对象  
      private TransferService transferService = new TransferServiceImpl();  
      @Override  
      protected void doGet(HttpServletRequest req, HttpServletResponse resp)  
@@ -66,7 +66,7 @@ date: {{DATE:YYYY-MM-DD}}
      int money = Integer.parseInt(moneyStr);  
      Result result = new Result();  
      try {  
-     // 2. 调⽤service层⽅法  
+     // 2. 调⽤ service 层⽅法  
      transferService.transfer(fromCardNo,toCardNo,money);  
      result.setStatus("200");  
      } catch (Exception e) {  
@@ -112,7 +112,7 @@ date: {{DATE:YYYY-MM-DD}}
      }  
     }
 ```    
--   AccountDao 層接口及基於JDBC的實現類
+-   AccountDao 層接口及基於 JDBC 的實現類
 ```java    
     package com.lagou.edu.dao;  
     import com.lagou.edu.pojo.Account;  
@@ -124,7 +124,7 @@ date: {{DATE:YYYY-MM-DD}}
      int updateAccountByCardNo(Account account) throws Exception;  
     }
 ```    
--   JdbcAccountDaoImpl（Jdbc技術實現Dao層接口）
+-   JdbcAccountDaoImpl（Jdbc 技術實現 Dao 層接口）
 ```java    
     package com.lagou.edu.dao.impl;  
     import com.lagou.edu.pojo.Account;  
@@ -178,14 +178,14 @@ date: {{DATE:YYYY-MM-DD}}
 
 ![[Spring 第三部分 -  銀行轉帳案例代碼問題分析.png]]
 
-（1）問題⼀：在上述案例實現中，service 層實現類在使⽤ dao 層對象時，直接在 TransferServiceImpl 中通過 AccountDao accountDao = new JdbcAccountDaoImpl() 獲得了 dao層對 象，然⽽⼀個 new 關鍵字卻將 TransferServiceImpl 和 dao 層具體的⼀個實現類 JdbcAccountDaoImpl 耦合在了⼀起，如果說技術架構發⽣⼀些變動，dao 層的實現要使⽤其它技術，⽐如 Mybatis，思考切換起來的成本？每⼀個 new 的地⽅都需要修改源代碼，重新編譯，⾯向接⼝開發的意義將⼤打折扣？
+（1）問題⼀：在上述案例實現中，service 層實現類在使⽤ dao 層對象時，直接在 TransferServiceImpl 中通過 AccountDao accountDao = new JdbcAccountDaoImpl() 獲得了 dao 層對 象，然⽽⼀個 new 關鍵字卻將 TransferServiceImpl 和 dao 層具體的⼀個實現類 JdbcAccountDaoImpl 耦合在了⼀起，如果說技術架構發⽣⼀些變動，dao 層的實現要使⽤其它技術，⽐如 Mybatis，思考切換起來的成本？每⼀個 new 的地⽅都需要修改源代碼，重新編譯，⾯向接⼝開發的意義將⼤打折扣？
 
 （2）問題⼆：service 層代碼沒有竟然還沒有進⾏事務控制 ？ ！如果轉賬過程中出現異常，將可能導致數據庫數據錯亂，後果可能會很嚴重，尤其在⾦融業務。
 
 
 ## 第 6 節 問題解決思路
 - 針對問題⼀思考：
-	- 實例化對象的⽅式除了 new 之外，還有什麼技術？反射 (需要把類的全限定類名配置在xml中)
+	- 實例化對象的⽅式除了 new 之外，還有什麼技術？反射 (需要把類的全限定類名配置在 xml 中)
 - 考慮使⽤設計模式中的⼯⼚模式解耦合，另外項⽬中往往有很多對象需要實例化，那就在⼯⼚中使⽤反 射技術實例化對象，⼯⼚模式很合適
 ![[Pasted image 20210909141842.png]]
 
@@ -193,7 +193,7 @@ date: {{DATE:YYYY-MM-DD}}
 ![[Pasted image 20210909141429.png]]
 
 - 針對問題⼆思考：
-	- service 層沒有添加事務控制，怎麼辦？沒有事務就添加上事務控制，⼿動控制 JDBC 的 Connection 事務，但要注意將Connection和當前線程綁定（即保證⼀個線程只有⼀個Connection，這樣操作才針對的是同⼀個 Connection，進⽽控制的是同⼀個事務）
+	- service 層沒有添加事務控制，怎麼辦？沒有事務就添加上事務控制，⼿動控制 JDBC 的 Connection 事務，但要注意將 Connection 和當前線程綁定（即保證⼀個線程只有⼀個 Connection，這樣操作才針對的是同⼀個 Connection，進⽽控制的是同⼀個事務）
 ![[Pasted image 20210909141559.png]]
 
 ## 第 7 節 案例代碼改造
@@ -233,8 +233,8 @@ date: {{DATE:YYYY-MM-DD}}
 	public class BeanFactory {
 	 /**
 	 * ⼯⼚类的两个任务
-	 * 任务⼀：加载解析xml，读取xml中的bean信息，通过反射技术实例化bean对象，然后放⼊map待⽤
-	 * 任务⼆：提供接⼝⽅法根据id从map中获取bean（静态⽅法）
+	 * 任务⼀：加载解析 xml，读取 xml 中的 bean 信息，通过反射技术实例化 bean 对象，然后放⼊ map 待⽤
+	 * 任务⼆：提供接⼝⽅法根据 id 从 map 中获取 bean（静态⽅法）
 	 */
 	 private static Map<String,Object> map = new HashMap<>();
 	 static {
@@ -244,7 +244,7 @@ date: {{DATE:YYYY-MM-DD}}
 			 Document document = saxReader.read(resourceAsStream);
 			 Element rootElement = document.getRootElement();
 			 List<Element> list = rootElement.selectNodes("//bean");
-			 // 实例化bean对象
+			 // 实例化 bean 对象
 			 for (int i = 0; i < list.size(); i++) {
 				 Element element = list.get(i);
 				 String id = element.attributeValue("id");
@@ -253,11 +253,11 @@ date: {{DATE:YYYY-MM-DD}}
 				 Object o = aClass.newInstance();
 				 map.put(id,o);
 			 }
-			 // 维护bean之间的依赖关系
+			 // 维护 bean 之间的依赖关系
 			 List<Element> propertyNodes = rootElement.selectNodes("//property");
 			 for (int i = 0; i < propertyNodes.size(); i++) {
 				 Element element = propertyNodes.get(i);
-				 // 处理property元素
+				 // 处理 property 元素
 				 String name = element.attributeValue("name");
 				 String ref = element.attributeValue("ref");
 
@@ -268,12 +268,12 @@ date: {{DATE:YYYY-MM-DD}}
 					 Method method = methods[j];
 					 if(("set" + name).equalsIgnoreCase(method.getName()))
 					 {
-						 // bean之间的依赖关系（注⼊bean）
+						 // bean 之间的依赖关系（注⼊ bean）
 						Object propertyObject = map.get(ref);
 						 method.invoke(parentObject,propertyObject);
 					 }
 				 }
-				 // 维护依赖关系后重新将bean放⼊map中
+				 // 维护依赖关系后重新将 bean 放⼊ map 中
 				 map.put(parentId,parentObject);
 			 }
 		 } catch (DocumentException e) {
@@ -400,7 +400,7 @@ date: {{DATE:YYYY-MM-DD}}
 						 e.printStackTrace();
 						 // 回滚事务
 						 transactionManager.rollback();
-						 // 异常向上抛出,便于servlet中捕获
+						 // 异常向上抛出,便于 servlet 中捕获
 						 throw e.getCause();
 					 }
 						return result;
@@ -413,21 +413,21 @@ date: {{DATE:YYYY-MM-DD}}
 - 修改 beans.xml
 	```xml
 	<?xml version="1.0" encoding="UTF-8" ?>
-	<!--跟标签beans，⾥⾯配置⼀个⼜⼀个的bean⼦标签，每⼀个bean⼦标签都代表⼀个类的配置--
+	<!--跟标签 beans，⾥⾯配置⼀个⼜⼀个的 bean ⼦标签，每⼀个 bean ⼦标签都代表⼀个类的配置--
 	>
 	<beans>
-	 <!--id标识对象，class是类的全限定类名-->
+	 <!--id 标识对象，class 是类的全限定类名-->
 	 <bean id="accountDao"
 	class="com.lagou.edu.dao.impl.JdbcAccountDaoImpl">
 	 <property name="ConnectionUtils" ref="connectionUtils"/>
 	 </bean>
 	 <bean id="transferService"
 	class="com.lagou.edu.service.impl.TransferServiceImpl">
-	 <!--set+ name 之后锁定到传值的set⽅法了，通过反射技术可以调⽤该⽅法传⼊对应
+	 <!--set+ name 之后锁定到传值的 set ⽅法了，通过反射技术可以调⽤该⽅法传⼊对应
 	的值-->
 	 <property name="AccountDao" ref="accountDao"></property>
 	 </bean>
-	 <!--配置新增的三个Bean-->
+	 <!--配置新增的三个 Bean-->
 	 <bean id="connectionUtils"
 	class="com.lagou.edu.utils.ConnectionUtils"></bean>
 	 <!--事务管理器-->
@@ -485,7 +485,7 @@ date: {{DATE:YYYY-MM-DD}}
 	 @Override
 	 public int updateAccountByCardNo(Account account) throws Exception {
 		 // 从连接池获取连接
-		 // 改造为：从当前线程当中获取绑定的connection连接
+		 // 改造为：从当前线程当中获取绑定的 connection 连接
 		 //Connection con = DruidUtils.getInstance().getConnection();
 		 Connection con = connectionUtils.getCurrentThreadConn();
 		 String sql = "update account set money=? where cardNo=?";

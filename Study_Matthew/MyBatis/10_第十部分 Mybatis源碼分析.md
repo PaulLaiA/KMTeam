@@ -10,7 +10,7 @@ date: {{DATE:YYYY-MM-DD}}
 
 
 
-# 第十部分： Mybatis源碼分析
+# 第十部分： Mybatis 源碼分析
 
 ## 10.1 傳統方式源碼分析
 
@@ -23,7 +23,7 @@ SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(inputStream);
 
 进⼊源码分析：
 ```java
-// 1.我们最初调⽤的build
+// 1.我们最初调⽤的 build
  public SqlSessionFactory build (InputStream inputStream){
  //调⽤了重载⽅法
  return build(inputStream, null, null);
@@ -32,33 +32,33 @@ SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(inputStream);
  // 2.调⽤的重载⽅法
  public SqlSessionFactory build (InputStream inputStream, String environment, Properties properties){
  try {
- // XMLConfigBuilder是专⻔解析mybatis的配置⽂件的类
+ // XMLConfigBuilder 是专⻔解析 mybatis 的配置⽂件的类
  XMLConfigBuilder parser = new XMLConfigBuilder(inputstream,environment, properties);
- //这⾥⼜调⽤了⼀个重载⽅法。parser.parse()的返回值是Configuration对象
+ //这⾥⼜调⽤了⼀个重载⽅法。parser.parse()的返回值是 Configuration 对象
  return build(parser.parse());
  } catch (Exception e) {
  throw ExceptionFactory.wrapException("Error building SqlSession.", e)
  }
 ```
 
-MyBatis在初始化的時候，會將MyBatis的配置信息全部加載到內存中，使⽤org.apache.ibatis.session.Configuratio n 實例來維護
+MyBatis 在初始化的時候，會將 MyBatis 的配置信息全部加載到內存中，使⽤ org.apache.ibatis.session.Configuratio n 實例來維護
 
 下⾯進⼊對配置⽂件解析部分：
 
-⾸先對Configuration對象進⾏介紹：
+⾸先對 Configuration 對象進⾏介紹：
 
-	Configuration對象的結構和xml配置⽂件的對象⼏乎相同。
-	回顧⼀下xml中的配置標籤有哪些：
+	Configuration 對象的結構和 xml 配置⽂件的對象⼏乎相同。
+	回顧⼀下 xml 中的配置標籤有哪些：
 	properties (屬性)，settings (設置)，typeAliases (類型別名)，typeHandlers (類型處理 器)，
-	objectFactory (對象⼯⼚)，mappers (映射器)等 Configuration也有對應的對象屬性來封裝它們
-	也就是說，初始化配置⽂件信息的本質就是創建Configuration對象，將解析的xml數據封裝到 Configuration內部屬性中
+	objectFactory (對象⼯⼚)，mappers (映射器)等 Configuration 也有對應的對象屬性來封裝它們
+	也就是說，初始化配置⽂件信息的本質就是創建 Configuration 對象，將解析的 xml 數據封裝到 Configuration 內部屬性中
 
 ```java
 /**
  * 解析 XML 成 Configuration 对象。
  */
  public Configuration parse () {
-	 //若已解析，抛出BuilderException异常
+	 //若已解析，抛出 BuilderException 异常
 	 if (parsed) {
 	 	throw new BuilderException("Each XMLConfigBuilder can only be used once.");
 	 }
@@ -69,7 +69,7 @@ MyBatis在初始化的時候，會將MyBatis的配置信息全部加載到內存
 	 return configuration;
 }
 	 /**
-	 *解析XML
+	 *解析 XML
 	 */
 private void parseConfiguration (XNode root){
  try {
@@ -79,11 +79,11 @@ private void parseConfiguration (XNode root){
 	 // 解析〈settings /> 标签
 	 Properties settings =
 	 settingsAsProperties(root.evalNode("settings"));
-	 //加载⾃定义的VFS实现类
+	 //加载⾃定义的 VFS 实现类
 	 loadCustomVfs(settings);
 	 // 解析 <typeAliases /> 标签
 	 typeAliasesElement(root.evalNode("typeAliases"));
-	 //解析<plugins />标签
+	 //解析 <plugins /> 标签
 	 pluginElement(root.evalNode("plugins"));
 	 // 解析 <objectFactory /> 标签
 	 objectFactoryElement(root.evalNode("objectFactory"));
@@ -100,7 +100,7 @@ private void parseConfiguration (XNode root){
 	 databaseldProviderElement(root.evalNode("databaseldProvider"));
 	 // 解析 <typeHandlers /> 标签
 	 typeHandlerElement(root.evalNode("typeHandlers"));
-	 //解析<mappers />标签
+	 //解析 <mappers /> 标签
 	 mapperElement(root.evalNode("mappers"));
  } catch (Exception e) {
  	 throw new BuilderException("Error parsing SQL Mapper Configuration.Cause:" + e, e);
@@ -110,22 +110,22 @@ private void parseConfiguration (XNode root){
 
 介紹⼀下 MappedStatement ：
 
-作⽤：MappedStatement與Mapper配置⽂件中的⼀個select/update/insert/delete節點相對應。
+作⽤：MappedStatement 與 Mapper 配置⽂件中的⼀個 select/update/insert/delete 節點相對應。
 
-mapper中配置的標籤都被封裝到了此對像中，主要⽤途是描述⼀條SQL語句。
+mapper 中配置的標籤都被封裝到了此對像中，主要⽤途是描述⼀條 SQL 語句。
 
-**初始化過程：** 回顧剛開 始介紹的加載配置⽂件的過程中，會對mybatis-config.xm l中的各個標籤都進⾏解析，其中有mappers 標籤⽤來引⼊mapper.xml⽂件或者配置mapper接⼝的⽬錄。
+**初始化過程：** 回顧剛開 始介紹的加載配置⽂件的過程中，會對 mybatis-config.xm l 中的各個標籤都進⾏解析，其中有 mappers 標籤⽤來引⼊ mapper.xml ⽂件或者配置 mapper 接⼝的⽬錄。
 ```xml
 <select id="getUser" resultType="user" >
  select * from user where id=#{id}
 </select>
 ```
 
-這樣的⼀個select標籤會在初始化配置⽂件時被解析封裝成⼀個MappedStatement對象，然後存儲在 Configuration對象的mappedStatements屬性中，
+這樣的⼀個 select 標籤會在初始化配置⽂件時被解析封裝成⼀個 MappedStatement 對象，然後存儲在 Configuration 對象的 mappedStatements 屬性中，
 
-mappedStatements 是⼀個HashMap，存儲時key =全限定類名+⽅法名，value =對應的MappedStatement對象。
+mappedStatements 是⼀個 HashMap，存儲時 key = 全限定類名 + ⽅法名，value = 對應的 MappedStatement 對象。
 
-在configuration中對應的屬性為
+在 configuration 中對應的屬性為
 ```java
 Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement> ("Mapped Statements collection")
 ```
@@ -142,7 +142,7 @@ private void parseConfiguration(XNode root) {
 }
 ```
 
-到此對xml配置⽂件的解析就結束了，回到步驟2.中調⽤的重載build⽅法
+到此對 xml 配置⽂件的解析就結束了，回到步驟 2.中調⽤的重載 build ⽅法
 
 ```java
 // 5.調⽤的重載⽅法
@@ -153,15 +153,15 @@ public SqlSessionFactory build(Configuration config) {
 ```
 
 
-**源碼剖析-執⾏SQL流程**
+**源碼剖析-執⾏ SQL 流程**
 
-先簡單介紹SqlSession ：
+先簡單介紹 SqlSession ：
 
-SqlSession是⼀個接⼝，它有兩個實現類：DefaultSqlSession (默認)和
+SqlSession 是⼀個接⼝，它有兩個實現類：DefaultSqlSession (默認)和
 
 SqlSessionManager (棄⽤，不做介紹)
 
-SqlSession是MyBatis中⽤於和數據庫交互的頂層類，通常將它與ThreadLocal綁定，⼀個會話使⽤⼀ 個SqlSession,並且在使⽤完畢後需要close
+SqlSession 是 MyBatis 中⽤於和數據庫交互的頂層類，通常將它與 ThreadLocal 綁定，⼀個會話使⽤⼀ 個 SqlSession,並且在使⽤完畢後需要 close
 ```java
 public class DefaultSqlSession implements SqlSession {
 	private final Configuration configuration;
@@ -169,11 +169,11 @@ public class DefaultSqlSession implements SqlSession {
 }
 ```
 
-SqlSession中的兩個最重要的參數，configuration與初始化時的相同，Executor為執⾏器
+SqlSession 中的兩個最重要的參數，configuration 與初始化時的相同，Executor 為執⾏器
 
 Executor：
 
-Executor也是⼀個接⼝，他有三個常⽤的實現類：
+Executor 也是⼀個接⼝，他有三個常⽤的實現類：
 
 BatchExecutor (重⽤語句並執⾏批量更新)
 
@@ -181,7 +181,7 @@ ReuseExecutor (重⽤預處理語句 prepared statements)
 
 SimpleExecutor (普通的執⾏器，默認)
 
-繼續分析，初始化完畢後，我們就要執⾏SQL 了
+繼續分析，初始化完畢後，我們就要執⾏ SQL 了
 ```java
 SqlSession sqlSession = factory.openSession();
 List<User> list = sqlSession.selectList("com.lagou.mapper.UserMapper.getUserByName");
@@ -191,20 +191,20 @@ List<User> list = sqlSession.selectList("com.lagou.mapper.UserMapper.getUserByNa
 ```java
  //6. 进⼊ o penSession ⽅法。
  public SqlSession openSession() {
- //getDefaultExecutorType()传递的是SimpleExecutor
+ //getDefaultExecutorType()传递的是 SimpleExecutor
  	return openSessionFromDataSource(configuration.getDefaultExecutorType(), null,false);
  }
 
- //7. 进⼊penSessionFromDataSource。
- //ExecutorType 为Executor的类型，TransactionIsolationLevel为事务隔离级别， autoCommit是否开启事务
- //openSession的多个重载⽅法可以指定获得的SeqSession的Executor类型和事务的处理 
+ //7. 进⼊ penSessionFromDataSource。
+ //ExecutorType 为 Executor 的类型，TransactionIsolationLevel 为事务隔离级别， autoCommit 是否开启事务
+ //openSession 的多个重载⽅法可以指定获得的 SeqSession 的 Executor 类型和事务的处理 
 private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionIsolationLevel level, boolean autoCommit) {
  Transaction tx = null;
  try{
 	 final Environment environment = configuration.getEnvironment();
 	 final TransactionFactory transactionFactory =  getTransactionFactoryFromEnvironment(environment);
 	 tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
-	 //根据参数创建指定类型的Executor
+	 //根据参数创建指定类型的 Executor
 	 final Executor executor = configuration.newExecutor(tx, execType);
 	 //返回的是 DefaultSqlSession
 	 return new DefaultSqlSession(configuration, executor, autoCommit);
@@ -215,7 +215,7 @@ private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionI
 
 執⾏ sqlsession 中的 api
 ```java
-  //8.进⼊selectList⽅法，多个重载⽅法。
+  //8.进⼊ selectList ⽅法，多个重载⽅法。
  public <E > List < E > selectList(String statement) {
  	return this.selectList(statement, null);
  }
@@ -224,10 +224,10 @@ private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionI
  }
  public <E > List < E > selectList(String statement, Object parameter, RowBounds rowBounds) {
 	 try {
-	 //根据传⼊的全限定名+⽅法名从映射的Map中取出MappedStatement对象
+	 //根据传⼊的全限定名 + ⽅法名从映射的 Map 中取出 MappedStatement 对象
 	 MappedStatement ms = configuration.getMappedStatement(statement);
-	 //调⽤Executor中的⽅法处理
-	 //RowBounds是⽤来逻辑分⻚
+	 //调⽤ Executor 中的⽅法处理
+	 //RowBounds 是⽤来逻辑分⻚
 	 // wrapCollection(parameter)是⽤来装饰集合或者数组参数
 	 return executor.query(ms, wrapCollection(parameter), rowBounds, Executor.NO_RESULT_HANDLER);
 	 } catch (Exception e) {
@@ -239,17 +239,17 @@ private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionI
 
 **源碼剖析-executor**
 
-繼續源碼中的步驟，進⼊executor.query()
+繼續源碼中的步驟，進⼊ executor.query()
 ```java
- //此⽅法在SimpleExecutor的⽗类BaseExecutor中实现
+ //此⽅法在 SimpleExecutor 的⽗类 BaseExecutor 中实现
  public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
- //根据传⼊的参数动态获得SQL语句，最后返回⽤BoundSql对象表示
+ //根据传⼊的参数动态获得 SQL 语句，最后返回⽤ BoundSql 对象表示
  BoundSql boundSql = ms.getBoundSql(parameter);
- //为本次查询创建缓存的Key
+ //为本次查询创建缓存的 Key
  CacheKey key = createCacheKey(ms, parameter, rowBounds, boundSql);
  return query(ms, parameter, rowBounds, resultHandler, key, boundSql);
  }
- //进⼊query的重载⽅法中
+ //进⼊ query 的重载⽅法中
  public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds,
  ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
  ErrorContext.instance().resource(ms.getResource()).activity("executing a query").object(ms.getId());
@@ -300,14 +300,14 @@ private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionI
 	 }
  	return list;
  }
- // SimpleExecutor中实现⽗类的doQuery抽象⽅法
+ // SimpleExecutor 中实现⽗类的 doQuery 抽象⽅法
  public <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
 	 Statement stmt = null;
 	 try {
 		 Configuration configuration = ms.getConfiguration();
-		 //传⼊参数创建StatementHanlder对象来执⾏查询
+		 //传⼊参数创建 StatementHanlder 对象来执⾏查询
 		 StatementHandler handler = configuration.newStatementHandler(wrapper, ms, parameter, rowBounds, resultHandler, boundSql);
-		 //创建jdbc中的statement对象
+		 //创建 jdbc 中的 statement 对象
 		 stmt = prepareStatement(handler, ms.getStatementLog());
 		 // StatementHandler 进⾏处理
 		 return handler.query(stmt, resultHandler);
@@ -315,10 +315,10 @@ private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionI
 	 	closeStatement(stmt);
 	 }
 	 }
-	 //创建Statement的⽅法
+	 //创建 Statement 的⽅法
 	 private Statement prepareStatement(StatementHandler handler, Log statementLog) throws SQLException {
 		 Statement stmt;
-		 //条代码中的getConnection⽅法经过重重调⽤最后会调⽤openConnection⽅法，从连接池中获 得连接。
+		 //条代码中的 getConnection ⽅法经过重重调⽤最后会调⽤ openConnection ⽅法，从连接池中获 得连接。
 		 Connection connection = getConnection(statementLog);
 		 stmt = handler.prepare(connection, transaction.getTimeout());
 		 handler.parameterize(stmt);
@@ -337,33 +337,33 @@ private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionI
  }
 ```
 
-上述的Executor.query()⽅法⼏經轉折，最後會創建⼀個StatementHandler對象，然後將必要的參數傳遞給StatementHandler，使⽤StatementHandler來完成對數據庫的查詢，最終返回List結果集。
+上述的 Executor.query()⽅法⼏經轉折，最後會創建⼀個 StatementHandler 對象，然後將必要的參數傳遞給 StatementHandler，使⽤ StatementHandler 來完成對數據庫的查詢，最終返回 List 結果集。
 
-從上⾯的代碼中我們可以看出，Executor的功能和作⽤是：
+從上⾯的代碼中我們可以看出，Executor 的功能和作⽤是：
 
-	(1、根據傳遞的參數，完成SQL語句的動態解析，⽣成BoundSql對象，供StatementHandler使⽤；
+	(1、根據傳遞的參數，完成 SQL 語句的動態解析，⽣成 BoundSql 對象，供 StatementHandler 使⽤；
 	(2、為查詢創建緩存，以提⾼性能
-	(3、創建JDBC的Statement連接對象，傳遞給*StatementHandler*對象，返回List查詢結果。
+	(3、創建 JDBC 的 Statement 連接對象，傳遞給*StatementHandler*對象，返回 List 查詢結果。
 	
 **源碼剖析-StatementHandler**
 
-StatementHandler對象主要完成兩個⼯作：
+StatementHandler 對象主要完成兩個⼯作：
 
-- 對於JDBC的PreparedStatement類型的對象，創建的過程中，我們使⽤的是SQL語句字符串會包含若⼲個？佔位符，我們其後再對占位符進⾏設值。 StatementHandler通過 parameterize(statement)⽅法對 S tatement 進⾏設值；
+- 對於 JDBC 的 PreparedStatement 類型的對象，創建的過程中，我們使⽤的是 SQL 語句字符串會包含若⼲個？佔位符，我們其後再對占位符進⾏設值。 StatementHandler 通過 parameterize(statement)⽅法對 S tatement 進⾏設值；
 
-- StatementHandler 通過 List query(Statement statement, ResultHandler resultHandler)⽅法來 完成執⾏Statement，和將Statement對象返回的resultSet封裝成List；
+- StatementHandler 通過 List query(Statement statement, ResultHandler resultHandler)⽅法來 完成執⾏ Statement，和將 Statement 對象返回的 resultSet 封裝成 List；
 
 進⼊到 StatementHandler 的 parameterize(statement)⽅法的實現：
 ```java
 public void parameterize(Statement statement) throws SQLException {
- //使⽤ParameterHandler对象来完成对Statement的设值
+ //使⽤ ParameterHandler 对象来完成对 Statement 的设值
  parameterHandler.setParameters((PreparedStatement) statement);
 }
 ```
 
 ```java
  /** ParameterHandler 类的 setParameters(PreparedStatement ps) 实现
- * 对某⼀个Statement进⾏设置参数
+ * 对某⼀个 Statement 进⾏设置参数
  * */
 public void setParameters(PreparedStatement ps) throws SQLException {
 	ErrorContext.instance().activity("setting parameters").object(mappedStatement.getParameterMap().getId());
@@ -384,7 +384,7 @@ public void setParameters(PreparedStatement ps) throws SQLException {
 					 MetaObject metaObject = configuration.newMetaObject(parameterObject);
 					 value = metaObject.getValue(propertyName); 
 				 }
-				 // 每⼀个 Mapping都有⼀个 TypeHandler，根据 TypeHandler 来对 preparedStatement进 ⾏设置参数
+				 // 每⼀个 Mapping 都有⼀个 TypeHandler，根据 TypeHandler 来对 preparedStatement 进 ⾏设置参数
 				 TypeHandler typeHandler = parameterMapping.getTypeHandler();
 				 JdbcType jdbcType = parameterMapping.getJdbcType();
 				 if (value == null && jdbcType == null) jdbcType =configuration.getJdbcTypeForNull();
@@ -396,16 +396,16 @@ public void setParameters(PreparedStatement ps) throws SQLException {
  }
 ```
 
-從上述的代碼可以看到,StatementHandler的parameterize(Statement)⽅法調⽤了
+從上述的代碼可以看到,StatementHandler 的 parameterize(Statement)⽅法調⽤了
 
-ParameterHandler的setParameters(statement)⽅法，
+ParameterHandler 的 setParameters(statement)⽅法，
 
-ParameterHandler的setParameters(Statement )⽅法負責根據我們輸⼊的參數，對statement對象的 ?佔位符處進⾏賦值。
+ParameterHandler 的 setParameters(Statement )⽅法負責根據我們輸⼊的參數，對 statement 對象的 ?佔位符處進⾏賦值。
 
-進⼊到StatementHandler 的 List query(Statement statement, ResultHandler resultHandler)⽅法的 實現：
+進⼊到 StatementHandler 的 List query(Statement statement, ResultHandler resultHandler)⽅法的 實現：
 ```java
 public <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException {
- // 1.调⽤preparedStatemnt。execute()⽅法，然后将resultSet交给ResultSetHandler处理
+ // 1.调⽤ preparedStatemnt。execute()⽅法，然后将 resultSet 交给 ResultSetHandler 处理
  PreparedStatement ps = (PreparedStatement) statement;
  ps.execute();
  
@@ -414,29 +414,29 @@ public <E> List<E> query(Statement statement, ResultHandler resultHandler) throw
 }
 ```
 
-從上述代碼我們可以看出，StatementHandler 的List query(Statement statement, ResultHandler resultHandler)⽅法的實現，是調⽤了 ResultSetHandler 的 handleResultSets(Statement)⽅法。
+從上述代碼我們可以看出，StatementHandler 的 List query(Statement statement, ResultHandler resultHandler)⽅法的實現，是調⽤了 ResultSetHandler 的 handleResultSets(Statement)⽅法。
 
-ResultSetHandler 的 handleResultSets(Statement)⽅法會將 Statement 語句執⾏後⽣成的 resultSet 結 果集轉換成List結果集
+ResultSetHandler 的 handleResultSets(Statement)⽅法會將 Statement 語句執⾏後⽣成的 resultSet 結 果集轉換成 List 結果集
 ```java
 public List<Object> handleResultSets(Statement stmt) throws SQLException {
  ErrorContext.instance().activity("handling results").object(mappedStatement.getId());
- //多ResultSet的结果集合，每个ResultSet对应⼀个Object对象。⽽实际上，每 个 Object 是List<Object> 对象。
- //在不考虑存储过程的多ResultSet的情况，普通的查询，实际就⼀个ResultSet，也 就是说，multipleResults最多就⼀个元素。
+ //多 ResultSet 的结果集合，每个 ResultSet 对应⼀个 Object 对象。⽽实际上，每 个 Object 是 List<Object> 对象。
+ //在不考虑存储过程的多 ResultSet 的情况，普通的查询，实际就⼀个 ResultSet，也 就是说，multipleResults 最多就⼀个元素。
  final List<Object> multipleResults = new ArrayList<>();
  int resultSetCount = 0;
- //获得⾸个ResultSet对象，并封装成ResultSetWrapper对象
+ //获得⾸个 ResultSet 对象，并封装成 ResultSetWrapper 对象
  ResultSetWrapper rsw = getFirstResultSet(stmt);
- //获得ResultMap数组
- //在不考虑存储过程的多ResultSet的情况，普通的查询，实际就⼀个ResultSet，也 就是说，resultMaps就⼀个元素。
+ //获得 ResultMap 数组
+ //在不考虑存储过程的多 ResultSet 的情况，普通的查询，实际就⼀个 ResultSet，也 就是说，resultMaps 就⼀个元素。
  List<ResultMap> resultMaps = mappedStatement.getResultMaps();
  int resultMapCount = resultMaps.size();
  validateResultMapsCount(rsw, resultMapCount); // 校验
  while (rsw != null && resultMapCount > resultSetCount) {
-	 //获得ResultMap对象
+	 //获得 ResultMap 对象
 	 ResultMap resultMap = resultMaps.get(resultSetCount);
-	 //处理ResultSet，将结果添加到multipleResults中
+	 //处理 ResultSet，将结果添加到 multipleResults 中
 	 handleResultSet(rsw, resultMap, multipleResults, null);
-	 //获得下⼀个ResultSet对象，并封装成ResultSetWrapper对象
+	 //获得下⼀个 ResultSet 对象，并封装成 ResultSetWrapper 对象
 	 rsw = getNextResultSet(stmt);
 	 //清理
 	 cleanUpAfterHandlingResultSet();
@@ -460,12 +460,12 @@ public List<Object> handleResultSets(Statement stmt) throws SQLException {
 	 resultSetCount++;
  }
  }
- //如果是multipleResults单元素，则取⾸元素返回
+ //如果是 multipleResults 单元素，则取⾸元素返回
  return collapseSingleResultList(multipleResults);
 }
 ```
 
-## 10.2 Mapper代理⽅式：
+## 10.2 Mapper 代理⽅式：
 回顧下寫法:
 ```java
  public static void main(String[] args) {
@@ -473,17 +473,17 @@ public List<Object> handleResultSets(Statement stmt) throws SQLException {
 	 InputStream inputStream = Resources.getResourceAsStream("sqlMapConfig.xml");
 	 SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(inputStream);
 	 SqlSession sqlSession = factory.openSession();
-	 //这⾥不再调⽤SqlSession的api,⽽是获得了接⼝对象，调⽤接⼝中的⽅法。
+	 //这⾥不再调⽤ SqlSession 的 api,⽽是获得了接⼝对象，调⽤接⼝中的⽅法。
 	 UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 	 List<User> list = mapper.getUserByName("tom");
  }
 ```
 
-思考⼀個問題，通常的Mapper接⼝我們都沒有實現的⽅法卻可以使⽤，是為什麼呢？
+思考⼀個問題，通常的 Mapper 接⼝我們都沒有實現的⽅法卻可以使⽤，是為什麼呢？
 
-答案很簡單動態 代理開始之前介紹⼀下MyBatis初始化時對接⼝的處理：MapperRegistry是Configuration中的⼀個屬性，它內部維護⼀個HashMap⽤於存放mapper接⼝的⼯⼚類，每個接⼝對應⼀個⼯⼚類。 
+答案很簡單動態 代理開始之前介紹⼀下 MyBatis 初始化時對接⼝的處理：MapperRegistry 是 Configuration 中的⼀個屬性，它內部維護⼀個 HashMap ⽤於存放 mapper 接⼝的⼯⼚類，每個接⼝對應⼀個⼯⼚類。 
 
-mappers中可以 配置接⼝的包路徑，或者某個具體的接⼝類。
+mappers 中可以 配置接⼝的包路徑，或者某個具體的接⼝類。
 
 ```xml
 <mappers>
@@ -492,9 +492,9 @@ mappers中可以 配置接⼝的包路徑，或者某個具體的接⼝類。
 </mappers>
 ```
 
-當解析mappers標籤時，它會判斷解析到的是mapper配置⽂件時，會再將對應配置⽂件中的增刪 改查標籤封裝成MappedStatement對象，存⼊mappedStatements中。
+當解析 mappers 標籤時，它會判斷解析到的是 mapper 配置⽂件時，會再將對應配置⽂件中的增刪 改查標籤封裝成 MappedStatement 對象，存⼊ mappedStatements 中。
 
-(上⽂介紹了)當判斷解析到接⼝時，會建此接⼝對應的MapperProxyFactory對象，存⼊HashMap中，key =接⼝的字節碼對象，value =此接⼝對應的MapperProxyFactory對象。
+(上⽂介紹了)當判斷解析到接⼝時，會建此接⼝對應的 MapperProxyFactory 對象，存⼊ HashMap 中，key = 接⼝的字節碼對象，value = 此接⼝對應的 MapperProxyFactory 對象。
 
 **源碼剖析-getmapper()**
 
@@ -524,7 +524,7 @@ mappers中可以 配置接⼝的包路徑，或者某個具體的接⼝類。
  }
  //MapperProxyFactory 类中的 newInstance ⽅法
  public T newInstance(SqlSession sqlSession) {
-	 //创建了 JDK动态代理的Handler类
+	 //创建了 JDK 动态代理的 Handler 类
 	 final MapperProxy<T> mapperProxy = new MapperProxy<>(sqlSession, mapperInterface, methodCache);
 	 //调⽤了重载⽅法
 	 return newInstance(mapperProxy);
@@ -535,7 +535,7 @@ mappers中可以 配置接⼝的包路徑，或者某個具體的接⼝類。
 	 private final SqlSession sqlSession;
 	 private final Class<T> mapperInterface;
 	 private final Map<Method, MapperMethod> methodCache;
-	 //构造，传⼊了 SqlSession，说明每个session中的代理对象的不同的！
+	 //构造，传⼊了 SqlSession，说明每个 session 中的代理对象的不同的！
 	 public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface, Map<Method, MapperMethod> methodCache) {
 		 this.sqlSession = sqlSession;
 		 this.mapperInterface = mapperInterface;
@@ -547,12 +547,12 @@ mappers中可以 配置接⼝的包路徑，或者某個具體的接⼝類。
 
 **源碼剖析-invoke()**
 
-在動態代理返回了示例後，我們就可以直接調⽤mapper類中的⽅法了，但代理對象調⽤⽅法，執⾏是在MapperProxy中的invoke⽅法中
+在動態代理返回了示例後，我們就可以直接調⽤ mapper 類中的⽅法了，但代理對象調⽤⽅法，執⾏是在 MapperProxy 中的 invoke ⽅法中
 
 ```java
  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 	 try {
-	 //如果是Object定义的⽅法，直接调⽤
+	 //如果是 Object 定义的⽅法，直接调⽤
 		 if (Object.class.equals(method.getDeclaringClass())) {
 			return method.invoke(this, args);
 		 } else if (isDefaultMethod(method)) {
@@ -563,21 +563,21 @@ mappers中可以 配置接⼝的包路徑，或者某個具體的接⼝類。
 	 }
 	 // 获得 MapperMethod 对象
 	 final MapperMethod mapperMethod = cachedMapperMethod(method);
-	 //重点在这：MapperMethod最终调⽤了执⾏的⽅法
+	 //重点在这：MapperMethod 最终调⽤了执⾏的⽅法
 	 return mapperMethod.execute(sqlSession, args);
  }
 ```
 
-進⼊execute⽅法：
+進⼊ execute ⽅法：
 ```java
 public Object execute(SqlSession sqlSession, Object[] args) {
  Object result;
- //判断mapper中的⽅法类型，最终调⽤的还是SqlSession中的⽅法 
+ //判断 mapper 中的⽅法类型，最终调⽤的还是 SqlSession 中的⽅法 
  switch (command.getType()) {
 	 case INSERT: {
 		 //转换参数
 		 Object param = method.convertArgsToSqlCommandParam(args);
-		 //执⾏INSERT操作
+		 //执⾏ INSERT 操作
 		 // 转换 rowCount
 		 result = rowCountResult(sqlSession.insert(command.getName(), param));
 		 break;
@@ -598,17 +598,17 @@ public Object execute(SqlSession sqlSession, Object[] args) {
 		 break;
 	 }
 	 case SELECT:
-		 //⽆返回，并且有ResultHandler⽅法参数，则将查询的结果，提交给 ResultHandler 进⾏处理
+		 //⽆返回，并且有 ResultHandler ⽅法参数，则将查询的结果，提交给 ResultHandler 进⾏处理
 		 if (method.returnsVoid() && method.hasResultHandler()) {
 			 executeWithResultHandler(sqlSession, args);
 			 result = null;
 		 //执⾏查询，返回列表
 		 } else if (method.returnsMany()) {
 		   result = executeForMany(sqlSession, args);
-		 //执⾏查询，返回Map
+		 //执⾏查询，返回 Map
 		 } else if (method.returnsMap()) {
 		   result = executeForMap(sqlSession, args);
-		 //执⾏查询，返回Cursor
+		 //执⾏查询，返回 Cursor
 		 } else if (method.returnsCursor()) {
 		   result = executeForCursor(sqlSession, args);
 		 //执⾏查询，返回单个对象
@@ -628,7 +628,7 @@ public Object execute(SqlSession sqlSession, Object[] args) {
 	 default:
 	 	 throw new BindingException("Unknown execution method for: " + command.getName());
  }
- //返回结果为null，并且返回类型为基本类型，则抛出BindingException异常
+ //返回结果为 null，并且返回类型为基本类型，则抛出 BindingException 异常
  if(result ==null&&method.getReturnType().isPrimitive() &&!method.returnsVoid()) {
 	 throw new BindingException("Mapper method '" + command.getName() + " attempted to return null from a method with a primitive
 	 return type(" + method.getReturnType() + "). ");
@@ -643,7 +643,7 @@ public Object execute(SqlSession sqlSession, Object[] args) {
 
 ⼆級緩存------》 ⼀級緩存------》數據庫
 
-與⼀級緩存不同，⼆級緩存和具體的命名空間綁定，⼀個Mapper中有⼀個Cache，相同Mapper中的MappedStatement共⽤⼀個Cache，⼀級緩存則是和 SqlSession 綁定。
+與⼀級緩存不同，⼆級緩存和具體的命名空間綁定，⼀個 Mapper 中有⼀個 Cache，相同 Mapper 中的 MappedStatement 共⽤⼀個 Cache，⼀級緩存則是和 SqlSession 綁定。
 
 **啟⽤⼆級緩存**
 
@@ -655,11 +655,11 @@ public Object execute(SqlSession sqlSession, Object[] args) {
  <setting name="cacheEnabled" value="true"/>
 </settings>
 ```
-2）在需要使⽤⼆級緩存的Mapper配置⽂件中配置標籤
+2）在需要使⽤⼆級緩存的 Mapper 配置⽂件中配置標籤
 ```xml
 <cache></cache>
 ```
-3）在具體CURD標籤上配置 useCache=true
+3）在具體 CURD 標籤上配置 useCache=true
 ```xml
  <select id="findById" resultType="com.lagou.pojo.User" useCache="true">
  	select * from user where id = #{id}
@@ -668,7 +668,7 @@ public Object execute(SqlSession sqlSession, Object[] args) {
 
 **標籤 < cache/> 的解析**
 
-根據之前的mybatis源碼剖析，xml的解析⼯作主要交給XMLConfigBuilder.parse()⽅法來實現
+根據之前的 mybatis 源碼剖析，xml 的解析⼯作主要交給 XMLConfigBuilder.parse()⽅法來實現
 ```java
 // XMLConfigBuilder.parse()
 public Configuration parse() {
@@ -681,7 +681,7 @@ public Configuration parse() {
 }
  
 // parseConfiguration()
-// 既然是在xml中添加的，那么我们就直接看关于mappers标签的解析
+// 既然是在 xml 中添加的，那么我们就直接看关于 mappers 标签的解析
 private void parseConfiguration(XNode root) {
  try {
 	 Properties settings = settingsAsPropertiess(root.evalNode("settings"));
@@ -714,12 +714,12 @@ private void mapperElement(XNode parent) throws Exception {
 			String resource = child.getStringAttribute("resource");
 			String url = child.getStringAttribute("url");
 			String mapperClass = child.getStringAttribute("class");
-			// 按照我们本例的配置，则直接⾛该if判断
+			// 按照我们本例的配置，则直接⾛该 if 判断
 			if (resource != null && url == null && mapperClass == null) {
 				ErrorContext.instance().resource(resource);
 				InputStream inputStream = Resources.getResourceAsStream(resource);
 				XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
-				// ⽣成XMLMapperBuilder，并执⾏其parse⽅法
+				// ⽣成 XMLMapperBuilder，并执⾏其 parse ⽅法
 				mapperParser.parse();
 			} else if (resource == null && url != null && mapperClass == null) {
 				ErrorContext.instance().resource(url);
@@ -738,12 +738,12 @@ private void mapperElement(XNode parent) throws Exception {
 }
 ```
 
-我們來看看解析Mapper.xml
+我們來看看解析 Mapper.xml
 ```java
 // XMLMapperBuilder.parse()
 public void parse() {
  if (!configuration.isResourceLoaded(resource)) {
-	 // 解析mapper属性
+	 // 解析 mapper 属性
 	 configurationElement(parser.evalNode("/mapper"));
 	 configuration.addLoadedResource(resource);
 	 bindMapperForNamespace();
@@ -761,12 +761,12 @@ private void configurationElement(XNode context) {
 	 }
 	 builderAssistant.setCurrentNamespace(namespace);
 	 cacheRefElement(context.evalNode("cache-ref"));
-	 // 最终在这⾥看到了关于cache属性的处理
+	 // 最终在这⾥看到了关于 cache 属性的处理
 	 cacheElement(context.evalNode("cache"));
 	 parameterMapElement(context.evalNodes("/mapper/parameterMap"));
 	 resultMapElements(context.evalNodes("/mapper/resultMap"));
 	 sqlElement(context.evalNodes("/mapper/sql"));
-	 // 这⾥会将⽣成的Cache包装到对应的MappedStatement
+	 // 这⾥会将⽣成的 Cache 包装到对应的 MappedStatement
 	 buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
  } catch (Exception e) {
  	 throw new BuilderException("Error parsing Mapper XML. Cause: " + e, e);
@@ -775,7 +775,7 @@ private void configurationElement(XNode context) {
 // cacheElement()
 private void cacheElement(XNode context) throws Exception {
  if (context != null) {
- //解析<cache/>标签的type属性，这⾥我们可以⾃定义cache的实现类，⽐如redisCache，如果没有⾃定义，这⾥使⽤和⼀级缓存相同的PERPETUAL
+ //解析 <cache/> 标签的 type 属性，这⾥我们可以⾃定义 cache 的实现类，⽐如 redisCache，如果没有⾃定义，这⾥使⽤和⼀级缓存相同的 PERPETUAL
  String type = context.getStringAttribute("type", "PERPETUAL");
  Class<? extends Cache> typeClass = typeAliasRegistry.resolveAlias(type);
  String eviction = context.getStringAttribute("eviction", "LRU");
@@ -785,13 +785,13 @@ private void cacheElement(XNode context) throws Exception {
  boolean readWrite = !context.getBooleanAttribute("readOnly", false);
  boolean blocking = context.getBooleanAttribute("blocking", false);
  Properties props = context.getChildrenAsProperties();
- // 构建Cache对象
+ // 构建 Cache 对象
  builderAssistant.useNewCache(typeClass, evictionClass, flushInterval, size, readWrite, blocking, props);
  }
 }
 ```
 
-先來看看是如何構建Cache對象的
+先來看看是如何構建 Cache 對象的
 
 **MapperBuilderAssistant.useNewCache()**
 ```java
@@ -802,9 +802,9 @@ public Cache useNewCache(Class<? extends Cache> typeClass,
  boolean readWrite,
  boolean blocking,
  Properties props) {
-	 // 1.⽣成Cache对象
+	 // 1.⽣成 Cache 对象
 	 Cache cache = new CacheBuilder(currentNamespace)
-	 //这⾥如果我们定义了<cache/>中的type，就使⽤⾃定义的Cache,否则使⽤和⼀级缓存相同的 PerpetualCache
+	 //这⾥如果我们定义了 <cache/> 中的 type，就使⽤⾃定义的 Cache,否则使⽤和⼀级缓存相同的 PerpetualCache
 	 .implementation(valueOrDefault(typeClass, PerpetualCache.class))
 	 .addDecorator(valueOrDefault(evictionClass, LruCache.class))
 	 .clearInterval(flushInterval)
@@ -813,17 +813,17 @@ public Cache useNewCache(Class<? extends Cache> typeClass,
 	 .blocking(blocking)
 	 .properties(props)
 	 .build();
-	 // 2.添加到Configuration中
+	 // 2.添加到 Configuration 中
 	 configuration.addCache(cache);
-	 // 3.并将cache赋值给MapperBuilderAssistant.currentCache
+	 // 3.并将 cache 赋值给 MapperBuilderAssistant.currentCache
 	 currentCache = cache;
 	 return cache;
 }
 ```
 
-我們看到⼀個Mapper.xml只會解析⼀次標籤，也就是只創建⼀次Cache對象，放進configuration中，並將cache賦值給MapperBuilderAssistant.currentCache
+我們看到⼀個 Mapper.xml 只會解析⼀次標籤，也就是只創建⼀次 Cache 對象，放進 configuration 中，並將 cache 賦值給 MapperBuilderAssistant.currentCache
 
-**buildStatementFromContext(context.evalNodes("select|insert|update|delete"));將Cache包裝到MappedStatement**
+**buildStatementFromContext(context.evalNodes("select|insert|update|delete"));將 Cache 包裝到 MappedStatement**
 ```java
 // buildStatementFromContext()
 private void buildStatementFromContext(List<XNode> list) {
@@ -837,7 +837,7 @@ private void buildStatementFromContext(List<XNode> list, String requiredDatabase
  for (XNode context : list) {
 	 final XMLStatementBuilder statementParser = new XMLStatementBuilder(configuration, builderAssistant, context, requiredDatabaseId);
 	 try {
-		// 每⼀条执⾏语句转换成⼀个MappedStatement
+		// 每⼀条执⾏语句转换成⼀个 MappedStatement
 		statementParser.parseStatementNode();
 	 } catch (IncompleteElementException e) {
 		configuration.addIncompleteStatement(statementParser);
@@ -859,7 +859,7 @@ public void parseStatementNode() {
  String lang = context.getStringAttribute("lang");
  LanguageDriver langDriver = getLanguageDriver(lang);
  ...
- // 创建MappedStatement对象
+ // 创建 MappedStatement 对象
  builderAssistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType,
  fetchSize, timeout, parameterMap,parameterTypeClass, resultMap, resultTypeClass, resultSetTypeEnum, flushCache, useCache,resultOrdered,
  keyGenerator, keyProperty, keyColumn,databaseId, langDriver, resultSets);
@@ -873,12 +873,12 @@ public MappedStatement addMappedStatement(
  }
  id = applyCurrentNamespace(id, false);
  boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
- //创建MappedStatement对象
+ //创建 MappedStatement 对象
  MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, id, sqlSource, sqlCommandType)
  ...
  .flushCacheRequired(valueOrDefault(flushCache, !isSelect))
  .useCache(valueOrDefault(useCache, isSelect))
- .cache(currentCache);// 在这⾥将之前⽣成的Cache封装到MappedStatement
+ .cache(currentCache);// 在这⾥将之前⽣成的 Cache 封装到 MappedStatement
  ParameterMap statementParameterMap = getStatementParameterMap(parameterMap, parameterType, id);
  if (statementParameterMap != null) {
  	statementBuilder.parameterMap(statementParameterMap);
@@ -889,7 +889,7 @@ public MappedStatement addMappedStatement(
 }
 ```
 
-我們看到將Mapper中創建的Cache對象，加⼊到了每個MappedStatement對像中，也就是同⼀個Mapper中所有的2
+我們看到將 Mapper 中創建的 Cache 對象，加⼊到了每個 MappedStatement 對像中，也就是同⼀個 Mapper 中所有的 2
 
 有關於標籤的解析就到這了。
 
@@ -905,9 +905,9 @@ public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds r
  return query(ms, parameterObject, rowBounds, resultHandler, key, boundSql);
 }
 public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
- // 从 MappedStatement 中获取 Cache，注意这⾥的 Cache 是从MappedStatement中获取的
- // 也就是我们上⾯解析Mapper中<cache/>标签中创建的，它保存在Configration中
- // 我们在上⾯解析blog.xml时分析过每⼀个MappedStatement都有⼀个Cache对象，就是这⾥
+ // 从 MappedStatement 中获取 Cache，注意这⾥的 Cache 是从 MappedStatement 中获取的
+ // 也就是我们上⾯解析 Mapper 中 <cache/> 标签中创建的，它保存在 Configration 中
+ // 我们在上⾯解析 blog.xml 时分析过每⼀个 MappedStatement 都有⼀个 Cache 对象，就是这⾥
  Cache cache = ms.getCache();
  // 如果配置⽂件中没有配置 <cache>，则 cache 为空
  if (cache != null) {
@@ -919,7 +919,7 @@ public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds r
 		 List<E> list = (List<E>) tcm.getObject(cache, key);
 		 // 缓存未命中
 		 if (list == null) {
-			 // 如果没有值，则执⾏查询，这个查询实际也是先⾛⼀级缓存查询，⼀级缓存也没有的话，则进⾏DB查询
+			 // 如果没有值，则执⾏查询，这个查询实际也是先⾛⼀级缓存查询，⼀级缓存也没有的话，则进⾏ DB 查询
 			 list = delegate.<E>query(ms, parameterObject, rowBounds, resultHandler,key, boundSql);
 			 // 缓存查询结果
 			 tcm.putObject(cache, key, list);
@@ -930,7 +930,7 @@ public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds r
  return delegate.<E>query(ms, parameterObject, rowBounds, resultHandler, key, boundSql);
 }
 ```
-如果設置了flushCache="true"，則每次查詢都會刷新緩存
+如果設置了 flushCache="true"，則每次查詢都會刷新緩存
 ```xml
 <!-- 执⾏此语句清空缓存 -->
 <select id="findbyId" resultType="com.lagou.pojo.user" useCache="true"
@@ -938,7 +938,7 @@ flushCache="true" >
  select * from t_demo
 </select>
 ```
-如上，注意⼆級緩存是從 MappedStatement 中獲取的。由於 MappedStatement 存在於全局配置中，可以多個CachingExecutor 獲取到，這樣就會出現線程安全問題。
+如上，注意⼆級緩存是從 MappedStatement 中獲取的。由於 MappedStatement 存在於全局配置中，可以多個 CachingExecutor 獲取到，這樣就會出現線程安全問題。
 
 除此之外，若不加以控制，多個事務共⽤⼀個緩存實例，會導致臟讀問題。 ⾄於臟讀問題，需要藉助其他類來處理，也就是上⾯代碼中 tcm 變量對應的類型。
 
@@ -955,11 +955,11 @@ public class TransactionalCacheManager {
 	 getTransactionalCache(cache).clear();
  }
  public Object getObject(Cache cache, CacheKey key) {
-	 // 直接从TransactionalCache中获取缓存
+	 // 直接从 TransactionalCache 中获取缓存
 	 return getTransactionalCache(cache).getObject(key);
  }
  public void putObject(Cache cache, CacheKey key, Object value) {
-	 // 直接存⼊TransactionalCache的缓存中
+	 // 直接存⼊ TransactionalCache 的缓存中
 	 getTransactionalCache(cache).putObject(key, value);
  }
  public void commit() {
@@ -977,7 +977,7 @@ public class TransactionalCacheManager {
 	 TransactionalCache txCache = transactionalCaches.get(cache);
 	 if (txCache == null) {
 		 // TransactionalCache 也是⼀种装饰类，为 Cache 增加事务功能
-		 // 创建⼀个新的TransactionalCache，并将真正的Cache对象存进去
+		 // 创建⼀个新的 TransactionalCache，并将真正的 Cache 对象存进去
 		 txCache = new TransactionalCache(cache);
 		 transactionalCaches.put(cache, txCache);
 	 }
@@ -988,14 +988,14 @@ public class TransactionalCacheManager {
 
 TransactionalCacheManager 內部維護了 Cache 實例與 TransactionalCache 實例間的映射關係，該類也僅負責維護兩者的映射關係，真正做事的還是 TransactionalCache。 
 
-TransactionalCache 是⼀種緩存裝飾器，可以為Cache 實例增加事務功能。
+TransactionalCache 是⼀種緩存裝飾器，可以為 Cache 實例增加事務功能。
 
 我在之前提到的髒讀問題正是由該類進⾏處理的。下⾯分析⼀下該類的邏輯。
 
 **TransactionalCache**
 ```java
 public class TransactionalCache implements Cache {
- //真正的缓存对象，和上⾯的Map<Cache, TransactionalCache>中的Cache是同⼀个
+ //真正的缓存对象，和上⾯的 Map<Cache, TransactionalCache> 中的 Cache 是同⼀个
  private final Cache delegate;
  private boolean clearOnCommit;
  // 在事务被提交前，所有从数据库中查询的结果将缓存在此集合中
@@ -1004,7 +1004,7 @@ public class TransactionalCache implements Cache {
  private final Set<Object> entriesMissedInCache;
  @Override
  public Object getObject(Object key) {
-	 // 查询的时候是直接从delegate中去查询的，也就是从真正的缓存对象中查询
+	 // 查询的时候是直接从 delegate 中去查询的，也就是从真正的缓存对象中查询
 	 Object object = delegate.getObject(key);
 	 if (object == null) {
 		 // 缓存未命中，则将 key 存⼊到 entriesMissedInCache 中
@@ -1018,7 +1018,7 @@ public class TransactionalCache implements Cache {
  }
  @Override
  public void putObject(Object key, Object object) {
-	 // 将键值对存⼊到 entriesToAddOnCommit 这个Map中中，⽽⾮真实的缓存对象 delegate 中
+	 // 将键值对存⼊到 entriesToAddOnCommit 这个 Map 中中，⽽⾮真实的缓存对象 delegate 中
 	 entriesToAddOnCommit.put(key, object);
  }
  @Override
@@ -1075,13 +1075,13 @@ public class TransactionalCache implements Cache {
  }
 }
 ```
-存儲⼆級緩存對象的時候是放到了TransactionalCache.entriesToAddOnCommit這個map中，但是每次查詢的時候是直接從TransactionalCache.delegate中去查詢的，
+存儲⼆級緩存對象的時候是放到了 TransactionalCache.entriesToAddOnCommit 這個 map 中，但是每次查詢的時候是直接從 TransactionalCache.delegate 中去查詢的，
 
 所以這個⼆級緩存查詢數據庫後，設置緩存值是沒有⽴刻⽣效的，主要是因為直接存到 delegate 會導致臟數據問題
 
-**為何只有SqlSession提交或關閉之後？**
+**為何只有 SqlSession 提交或關閉之後？**
 
-那我們來看下SqlSession.commit()⽅法做了什麼
+那我們來看下 SqlSession.commit()⽅法做了什麼
 
 SqlSession
 ```java
@@ -1120,7 +1120,7 @@ public void commit() {
 // TransactionalCache.flushPendingEntries()
 private void flushPendingEntries() {
  for (Map.Entry<Object, Object> entry : entriesToAddOnCommit.entrySet()) {
-	 // 在这⾥真正的将entriesToAddOnCommit的对象逐个添加到delegate中，只有这时，⼆级缓存才真正的⽣效
+	 // 在这⾥真正的将 entriesToAddOnCommit 的对象逐个添加到 delegate 中，只有这时，⼆级缓存才真正的⽣效
 	 delegate.putObject(entry.getKey(), entry.getValue());
  }
  for (Object entry : entriesMissedInCache) {
@@ -1133,7 +1133,7 @@ private void flushPendingEntries() {
 
 **⼆級緩存的刷新**
 
-我們來看看SqlSession的更新操作
+我們來看看 SqlSession 的更新操作
 ```java
 public int update(String statement, Object parameter) {
  int var4;
@@ -1153,25 +1153,25 @@ public int update(MappedStatement ms, Object parameterObject) throws SQLExceptio
  return this.delegate.update(ms, parameterObject);
 }
 private void flushCacheIfRequired(MappedStatement ms) {
- //获取MappedStatement对应的Cache，进⾏清空
+ //获取 MappedStatement 对应的 Cache，进⾏清空
  Cache cache = ms.getCache();
- //SQL需设置flushCache="true" 才会执⾏清空
+ //SQL 需设置 flushCache="true" 才会执⾏清空
  if (cache != null && ms.isFlushCacheRequired()) {
  	 this.tcm.clear(cache);
  }
 }
 ```
 
-MyBatis⼆級緩存只適⽤於不常進⾏增、刪、改的數據，⽐如國家⾏政區省市區街道數據。 ⼀但數據變更，MyBatis會清空緩存。因此⼆級緩存不適⽤於經常進⾏更新的數據。
+MyBatis ⼆級緩存只適⽤於不常進⾏增、刪、改的數據，⽐如國家⾏政區省市區街道數據。 ⼀但數據變更，MyBatis 會清空緩存。因此⼆級緩存不適⽤於經常進⾏更新的數據。
 
 **總結：**
 
-在⼆級緩存的設計上，MyBatis⼤量地運⽤了裝飾者模式，如CachingExecutor, 以及各種Cache接⼝的裝飾器。
+在⼆級緩存的設計上，MyBatis ⼤量地運⽤了裝飾者模式，如 CachingExecutor, 以及各種 Cache 接⼝的裝飾器。
 
-- ⼆級緩存實現了Sqlsession之間的緩存數據共享，屬於namespace級別
+- ⼆級緩存實現了 Sqlsession 之間的緩存數據共享，屬於 namespace 級別
 - ⼆級緩存具有豐富的緩存策略。
 - ⼆級緩存可由多個裝飾器，與基礎緩存組合⽽成
-- ⼆級緩存⼯作由 ⼀個緩存裝飾執⾏器CachingExecutor和 ⼀個事務型預緩存TransactionalCache 完成。
+- ⼆級緩存⼯作由 ⼀個緩存裝飾執⾏器 CachingExecutor 和 ⼀個事務型預緩存 TransactionalCache 完成。
 
 
   
@@ -1185,7 +1185,7 @@ MyBatis⼆級緩存只適⽤於不常進⾏增、刪、改的數據，⽐如國�
  
 舉個栗⼦
 
-	在⼀對多中，當我們有⼀個⽤戶，它有個100個訂單
+	在⼀對多中，當我們有⼀個⽤戶，它有個 100 個訂單
 	 在查詢⽤戶的時候，要不要把關聯的訂單查出來？
 	 在查詢訂單的時候，要不要把關聯的⽤戶查出來？
 	 
@@ -1215,7 +1215,7 @@ MyBatis⼆級緩存只適⽤於不常進⾏增、刪、改的數據，⽐如國�
 
 **局部延遲加載**
 
-在association和collection標籤中都有⼀個fetchType屬性，通過修改它的值，可以修改局部的加載策略。
+在 association 和 collection 標籤中都有⼀個 fetchType 屬性，通過修改它的值，可以修改局部的加載策略。
 ```xml
 <!-- 开启⼀对多 延迟加载 -->
 <resultMap id="userMap" type="user">
@@ -1238,7 +1238,7 @@ MyBatis⼆級緩存只適⽤於不常進⾏增、刪、改的數據，⽐如國�
 
 **全局延遲加載**
 
-在Mybatis的核⼼配置⽂件中可以使⽤setting標籤修改全局的加載策略。
+在 Mybatis 的核⼼配置⽂件中可以使⽤ setting 標籤修改全局的加載策略。
 ```xml
 <settings>
  <!--开启全局延迟加载功能-->
@@ -1268,7 +1268,7 @@ MyBatis⼆級緩存只適⽤於不常進⾏增、刪、改的數據，⽐如國�
 ```
 
 **延遲加載原理實現**
-它的原理是，使⽤ CGLIB 或 Javassist( 默認 ) 創建⽬標對象的代理對象。當調⽤代理對象的延遲加載屬性的getting ⽅法時，進⼊攔截器⽅法。
+它的原理是，使⽤ CGLIB 或 Javassist( 默認 ) 創建⽬標對象的代理對象。當調⽤代理對象的延遲加載屬性的 getting ⽅法時，進⼊攔截器⽅法。
 
 ⽐如調⽤ a.getB().getName() ⽅法，進⼊攔截器的 invoke(...) ⽅法，發現 a.getB() 需要延遲加載時，那麼就會單獨發送事先保存好的查詢關聯 B 對象的 SQL ，把 B 查詢上來，然後調⽤ a.setB(b) ⽅法，於是 a 對象 b 屬性就有值了，接著完成 a.getB().getName() ⽅法的調⽤。這就是延遲加載的基本原理
 
@@ -1276,15 +1276,15 @@ MyBatis⼆級緩存只適⽤於不常進⾏增、刪、改的數據，⽐如國�
 
 **延遲加載原理（源碼剖析)**
 
-MyBatis延遲加載主要使⽤：Javassist，Cglib實現，類圖展示：
+MyBatis 延遲加載主要使⽤：Javassist，Cglib 實現，類圖展示：
 ![[Pasted image 20211003162023.png]]
 
 **Setting 配置加载：**
 ```java
 public class Configuration {
 /** aggressiveLazyLoading：
- * 當開啟時，任何⽅法的調⽤都會加載該對象的所有屬性。否則，每個屬性會按需加載（參考lazyLoadTriggerMethods).
- * 默認為true
+ * 當開啟時，任何⽅法的調⽤都會加載該對象的所有屬性。否則，每個屬性會按需加載（參考 lazyLoadTriggerMethods).
+ * 默認為 true
  * */
  protected boolean aggressiveLazyLoading;
  /**
@@ -1295,7 +1295,7 @@ public class Configuration {
  protected boolean lazyLoadingEnabled = false;
  
  /**
- * 默認使⽤Javassist代理⼯⼚
+ * 默認使⽤ Javassist 代理⼯⼚
  * @param proxyFactory
  */
  public void setProxyFactory(ProxyFactory proxyFactory) {
@@ -1311,9 +1311,9 @@ public class Configuration {
 
 **延遲加載代理對象創建**
 
- Mybatis的查詢結果是由ResultSetHandler接⼝的handleResultSets()⽅法處理的。 
+ Mybatis 的查詢結果是由 ResultSetHandler 接⼝的 handleResultSets()⽅法處理的。 
  
- ResultSetHandler接⼝只有⼀個實現，DefaultResultSetHandler，接下來看下延遲加載相關的⼀個核⼼的⽅法
+ ResultSetHandler 接⼝只有⼀個實現，DefaultResultSetHandler，接下來看下延遲加載相關的⼀個核⼼的⽅法
 ```java
 <code class="language-Java">//#mark 创建结果对象
  private Object createResultObject(ResultSetWrapper rsw, ResultMap resultMap, ResultLoaderMap lazyLoader, String columnPrefix) throws SQLException {
@@ -1337,10 +1337,10 @@ public class Configuration {
 	 return resultObject;
  }
 ```
-默認採⽤javassistProxy進⾏代理對象的創建
+默認採⽤ javassistProxy 進⾏代理對象的創建
 ![[Pasted image 20211003162537.png]]
 
-JavasisstProxyFactory實現
+JavasisstProxyFactory 實現
 ```java
 public class JavassistProxyFactory implements
 org.apache.ibatis.executor.loader.ProxyFactory {
@@ -1444,7 +1444,7 @@ lazyLoader.getProperties(), objectFactory, constructorArgTypes, constructorArgs)
  return original;
  }
  } else {
- //延迟加载数量⼤于0
+ //延迟加载数量⼤于 0
  if (lazyLoader.size() &gt; 0 &amp;&amp;
 !FINALIZE_METHOD.equals(methodName)) {
  //aggressive ⼀次加载性所有需要要延迟加载属性或者包含触发延迟加载⽅法
@@ -1455,7 +1455,7 @@ enhanced.getClass());
  //⼀次全部加载
  lazyLoader.loadAll();
  } else if (PropertyNamer.isSetter(methodName)) {
- //判断是否为set⽅法，set⽅法不需要延迟加载
+ //判断是否为 set ⽅法，set ⽅法不需要延迟加载
  final String property = PropertyNamer.methodToProperty(methodName);
  lazyLoader.remove(property);
  } else if (PropertyNamer.isGetter(methodName)) {
@@ -1479,10 +1479,10 @@ enhanced.getClass());
 
 **注意事項**
 
-IDEA調試問題 
+IDEA 調試問題 
 
-	當配置aggressiveLazyLoading=true，在使⽤IDEA進⾏調試的時候，如果斷點打到代理執⾏邏輯當中，你會發現延遲加載的代碼永遠都不能進⼊，總是會被提前執⾏。
-	主要產⽣的原因在aggressiveLazyLoading，因為在調試的時候，IDEA的Debuger窗體中已經觸發了延遲加載對象的⽅法。
+	當配置 aggressiveLazyLoading=true，在使⽤ IDEA 進⾏調試的時候，如果斷點打到代理執⾏邏輯當中，你會發現延遲加載的代碼永遠都不能進⼊，總是會被提前執⾏。
+	主要產⽣的原因在 aggressiveLazyLoading，因為在調試的時候，IDEA 的 Debuger 窗體中已經觸發了延遲加載對象的⽅法。
 
 
 

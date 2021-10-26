@@ -19,7 +19,7 @@ aliases: []
 
 # MetaData
 
-MetaData作爲描述文件的基本信息,它應該具備以下特徵
+MetaData 作爲描述文件的基本信息,它應該具備以下特徵
 - 標題 ( Title )
 - 作者 ( Author )
 - 分類 ( Classification )

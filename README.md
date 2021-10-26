@@ -20,7 +20,7 @@
 	
 	中文基礎教學:https://publish.obsidian.md/help-zh
 	
-	Obsidian使用外掛
+	Obsidian 使用外掛
 	- 核心外掛
 		- 模板
 	- 第三方外掛
@@ -31,9 +31,9 @@
 		- QuickAdd
 
 2. VSCode
-	彌補Obsidian對於檔案沒辦法實現一些批量級操作
-	Notepad++也是可以,這個隨意
+	彌補 Obsidian 對於檔案沒辦法實現一些批量級操作
+	Notepad++ 也是可以,這個隨意
 3. SourceTree
-	使用Git的小工具
+	使用 Git 的小工具
 4. 簡繁轉換的小工具
 	https://github.com/lxn/walk

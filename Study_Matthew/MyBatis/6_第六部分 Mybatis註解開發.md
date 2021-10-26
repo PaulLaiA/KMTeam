@@ -8,12 +8,12 @@ aliases:
 date: {{DATE:YYYY-MM-DD}}
 ---
 
-# 第六部分： Mybatis註解開發
+# 第六部分： Mybatis 註解開發
 
-## 6.1 MyBatis的常用註解
-這⼏年來註解開發越來越流⾏，Mybatis也可以使⽤註解開發⽅式，這樣我們就可以減少編寫Mapper映射⽂件了。
+## 6.1 MyBatis 的常用註解
+這⼏年來註解開發越來越流⾏，Mybatis 也可以使⽤註解開發⽅式，這樣我們就可以減少編寫 Mapper 映射⽂件了。
 
-我們先圍繞⼀些基本的CRUD來學習，再學習複雜映射多表操作。
+我們先圍繞⼀些基本的 CRUD 來學習，再學習複雜映射多表操作。
 @Insert：實現新增
 
 @Update：實現更新
@@ -31,8 +31,8 @@ date: {{DATE:YYYY-MM-DD}}
 @Many：實現⼀對多結果集封裝
 
 
-## 6.2 MyBatis的增刪改查
-我們完成簡單的user表的增刪改查的操作
+## 6.2 MyBatis 的增刪改查
+我們完成簡單的 user 表的增刪改查的操作
 ```java
 private UserMapper userMapper;
 @Before
@@ -78,7 +78,7 @@ public void testFindAll() throws IOException {
  }
 }
 ```
-修改MyBatis的核⼼配置⽂件，我們使⽤了註解替代的映射⽂件，所以我們只需要加載使⽤了註解的Mapper接⼝即可
+修改 MyBatis 的核⼼配置⽂件，我們使⽤了註解替代的映射⽂件，所以我們只需要加載使⽤了註解的 Mapper 接⼝即可
 ```xml
 <mappers>
  <!--扫描使⽤注解的类-->
@@ -95,8 +95,8 @@ public void testFindAll() throws IOException {
 ```
 
 
-## 6.3 MyBatis的註解實現複雜映射開發
-實現複雜關係映射之前我們可以在映射⽂件中通過配置來實現，使⽤註解開發後，我們可以使⽤@Results註解，@Result註解，@One註解，@Many註解組合完成複雜關係的配置
+## 6.3 MyBatis 的註解實現複雜映射開發
+實現複雜關係映射之前我們可以在映射⽂件中通過配置來實現，使⽤註解開發後，我們可以使⽤@Results 註解，@Result 註解，@One 註解，@Many 註解組合完成複雜關係的配置
 
 ![[Pasted image 20211002195830.png]]
 
@@ -108,19 +108,19 @@ public void testFindAll() throws IOException {
 ⼀對⼀查詢的需求：查詢⼀個訂單，與此同時查詢出該訂單所屬的⽤戶
 ![[Pasted image 20211002200034.png]]
 
-### 6.4.2⼀對⼀查詢的語句 
+### 6.4.2 ⼀對⼀查詢的語句 
 
-對應的sql語句：
+對應的 sql 語句：
 ```sql
 select * from orders; 
-select * from user where id=查询出订单的uid
+select * from user where id= 查询出订单的 uid
 ```
 
 查詢的結果如下：
 ![[Pasted image 20211002200153.png]]
 
 
-### 6.4.3 創建Order和User實體
+### 6.4.3 創建 Order 和 User 實體
 ```java
 public class Order {
  private int id;
@@ -138,14 +138,14 @@ public class User {
 }
 ```
 
-### 6.4.4 創建OrderMapper接口
+### 6.4.4 創建 OrderMapper 接口
 ```java
 public interface OrderMapper {
  List<Order> findAll();
 }
 ```
 
-### 6.4.5 使用註解配置Mapper
+### 6.4.5 使用註解配置 Mapper
 ```java
 public interface OrderMapper {
  @Select("select * from orders")
@@ -188,19 +188,19 @@ public void testSelectOrderAndUser() {
 ⼀對多查詢的需求：查詢⼀個⽤戶，與此同時查詢出該⽤戶具有的訂單
 ![[Pasted image 20211002200833.png]]
 
-### 6.5.2⼀對多查詢的語句 
+### 6.5.2 ⼀對多查詢的語句 
 
-對應的sql語句：
+對應的 sql 語句：
 ```sql
 select * from user; 
-select * from orders where uid=查询出⽤户的id;
+select * from orders where uid= 查询出⽤户的 id;
 ```
 
 查詢的結果如下：
 ![[Pasted image 20211002200914.png]]
 
 
-### 6.5.3 修改User實體
+### 6.5.3 修改 User 實體
 ```java
 public class Order {
  private int id;
@@ -222,14 +222,14 @@ public class User {
 
 ```
 
-### 6.5.4 創建UserMapper接口
+### 6.5.4 創建 UserMapper 接口
 ```java
 public interface UserMapper {
  List findAllUserAndOrder()
 }
 ```
 
-### 6.5.5 使用註解配置Mapper
+### 6.5.5 使用註解配置 Mapper
 ```java
 public interface UserMapper {
  @Select("select * from user")
@@ -275,19 +275,19 @@ for(User user : all){
 多對多查詢的需求：查詢⽤戶同時查詢出該⽤戶的所有⻆⾊
 ![[Pasted image 20211002201300.png]]
 
-### 6.6.2⼀對多查詢的語句 
+### 6.6.2 ⼀對多查詢的語句 
 
-對應的sql語句：
+對應的 sql 語句：
 ```sql
 select * from user; 
-select * from role r,user_role ur where r.id=ur.role_id and ur.user_id=⽤户的id
+select * from role r,user_role ur where r.id=ur.role_id and ur.user_id= ⽤户的 id
 ```
 
 查詢的結果如下：
 ![[Pasted image 20211002201327.png]]
 
 
-### 6.6.3 創建Role實體，修改User實體
+### 6.6.3 創建 Role 實體，修改 User 實體
 ```java
 public class User {
  private int id;
@@ -305,12 +305,12 @@ public class Role {
 }
 ```
 
-### 6.6.4 添加UserMapper接口方法
+### 6.6.4 添加 UserMapper 接口方法
 ```java
 List findAllUserAndRole();
 ```
 
-### 6.6.5 使用註解配置Mapper
+### 6.6.5 使用註解配置 Mapper
 ```java
 public interface UserMapper {
  @Select("select * from user")

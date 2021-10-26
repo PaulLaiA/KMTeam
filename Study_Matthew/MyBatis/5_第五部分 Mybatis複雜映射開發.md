@@ -8,7 +8,7 @@ aliases:
 date: {{DATE:YYYY-MM-DD}}
 ---
 
-# 第五部分：Mybatis複雜映射開發
+# 第五部分：Mybatis 複雜映射開發
 
 ## 5.1 一對一查詢
 
@@ -19,14 +19,14 @@ date: {{DATE:YYYY-MM-DD}}
 ⼀對⼀查詢的需求：查詢⼀個訂單，與此同時查詢出該訂單所屬的⽤戶
 ![[Pasted image 20210927155605.png]]
 
-### 5.1.2⼀對⼀查詢的語句 
+### 5.1.2 ⼀對⼀查詢的語句 
 
-對應的sql語句：select * from orders o,user u where o.uid=u.id; 
+對應的 sql 語句：select * from orders o,user u where o.uid=u.id; 
 
 查詢的結果如下：
 ![[Pasted image 20210927155657.png]]
 
-### 5.1.3 創建Order和User實體
+### 5.1.3 創建 Order 和 User 實體
 ```java
 public class Order {
  private int id;
@@ -44,14 +44,14 @@ public class User {
 }
 ```
 
-### 5.1.4 創建OrderMapper接口
+### 5.1.4 創建 OrderMapper 接口
 ```java
 public interface OrderMapper {
  List<Order> findAll();
 }
 ```
 
-### 5.1.5 配置OrderMapper.xml
+### 5.1.5 配置 OrderMapper.xml
 ```xml
 <mapper namespace="com.lagou.mapper.OrderMapper">
  <resultMap id="orderMap" type="com.lagou.domain.Order">
@@ -99,12 +99,12 @@ for(Order order : all){
 ![[Pasted image 20210927160119.png]]
 
 ### 5.2.2 一對多查詢的語句
-對應的sql語句：select*,o.id oid from user u left join orders o on u.id=o.uid;
+對應的 sql 語句：select*,o.id oid from user u left join orders o on u.id=o.uid;
 
 查詢的結果如下：
 ![[Pasted image 20210927160218.png]]
 
-### 5.2.3 修改User實體
+### 5.2.3 修改 User 實體
 ```java
 public class Order {
  private int id;
@@ -124,7 +124,7 @@ public class User {
 }
 ```
 
-### 5.2.4 創建UserMapper接⼝
+### 5.2.4 創建 UserMapper 接⼝
 ```java
 public interface UserMapper {
  List<User> findAll();
@@ -132,7 +132,7 @@ public interface UserMapper {
 
 ```
 
-### 5.2.5 配置UserMapper.xml
+### 5.2.5 配置 UserMapper.xml
 ```xml
 <mapper namespace="com.lagou.mapper.UserMapper">
  <resultMap id="userMap" type="com.lagou.domain.User">
@@ -176,14 +176,14 @@ for(User user : all){
 ![[Pasted image 20210927160556.png]]
 
 ### 5.3.2 多對多查詢的語句
-對應的sql語句：select u.,r.,r.id rid from user u left join user_role ur on u.id=ur.user_id
+對應的 sql 語句：select u.,r.,r.id rid from user u left join user_role ur on u.id=ur.user_id
 
  inner join role r on ur.role_id=r.id;
  
 查詢的結果如下：
 ![[Pasted image 20210927160639.png]]
 
-### 5.3.3 創建Role實體，修改User實體
+### 5.3.3 創建 Role 實體，修改 User 實體
 ```java
 public class User {
  private int id;
@@ -201,13 +201,13 @@ public class Role {
 }
 ```
 
-### 5.3.4 添加UserMapper接⼝⽅法
+### 5.3.4 添加 UserMapper 接⼝⽅法
 ```java
 List<User> findAllUserAndRole();
 ```
 
 
-### 5.3.5 配置UserMapper.xml
+### 5.3.5 配置 UserMapper.xml
 ```xml
 <resultMap id="userRoleMap" type="com.lagou.domain.User">
  <result column="id" property="id"></result>
@@ -242,13 +242,13 @@ for(User user : all){
 
 
 ## 5.4 知識小結
-MyBatis多表配置⽅式：
+MyBatis 多表配置⽅式：
 
 **⼀對⼀配置：使⽤做配置**
 
-**⼀對多配置：使⽤+做配置**
+**⼀對多配置：使⽤ + 做配置**
 
-**多對多配置：使⽤+做配置**
+**多對多配置：使⽤ + 做配置**
 
 
 

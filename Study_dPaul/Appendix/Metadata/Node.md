@@ -25,7 +25,7 @@ aliases: []
 
 Ex :
 
-`Study_dPaul/Appendix/Metadata`文件夾下有一個與文件夾同名的文件`Metadata`
+`Study_dPaul/Appendix/Metadata` 文件夾下有一個與文件夾同名的文件 `Metadata`
 
 那這個文件其實就代表這個文件夾
 
