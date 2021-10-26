@@ -96,7 +96,7 @@ IoC 和 AOP 實現，在改造的過程中，把各個知識點串起來。
 在實際開發中，我們使⽤的對像有些時候並不是直接通過構造函數就可以創建出來的，它可能在創
 建的過程 中會做很多額外的操作。此時會提供⼀個創建對象的⽅法，恰好這個⽅法是 static 修飾的
 ⽅法，即是此種情 況。
-例如，我們在做 Jdbc 操作時，會⽤到 java.sql.Connection 接⼝的實現類，如果是 mysql 數據庫，那
+例如，我們在做 Jdbc 操作時，會⽤到 java.sql.Connection 接⼝的實現類，如果是 MySQL 數據庫，那
 麼⽤的就 是 JDBC4Connection，但是我們不會去寫 JDBC4Connection connection = new
 JDBC4Connection() ，因 為我們要註冊驅動，還要提供 URL 和憑證信息，
 ⽤ DriverManager.getConnection ⽅法來獲取連接。

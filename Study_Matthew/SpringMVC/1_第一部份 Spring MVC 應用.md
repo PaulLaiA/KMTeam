@@ -21,7 +21,7 @@ date: {{DATE:YYYY-MM-DD}}
 
 - 表現層 ：
 	
-	也就是我們常說的 web 層。它負責接收客戶端請求，向客戶端響應結果，通常客戶端使⽤ http 協議請求 web 層，web 需要接收 http 請求，完成 http 響應。
+	也就是我們常說的 Web 層。它負責接收客戶端請求，向客戶端響應結果，通常客戶端使⽤ http 協議請求 Web 層，web 需要接收 http 請求，完成 http 響應。
 	
 	表現層包括展示層和控制層：控制層負責接收請求，展示層負責結果的展示。
 	
@@ -59,7 +59,7 @@ servlet、struts 實現接⼝、springmvc 中要讓⼀個 java 類能夠處理�
 
 它通過⼀套註解，讓⼀個簡單的 Java 類成為處理請求的控制器，⽽⽆須實現任何接⼝。同時它還⽀持 RESTful 編程⻛格的請求。
 
-總之：Spring MVC 和 Struts2 ⼀樣，都是 為了解決表現層問題 的 web 框架，它們都是基於 MVC 設計模式的。 ⽽這些表現層框架的主要職責就是處理前端 HTTP 請求。
+總之：Spring MVC 和 Struts2 ⼀樣，都是 為了解決表現層問題 的 Web 框架，它們都是基於 MVC 設計模式的。 ⽽這些表現層框架的主要職責就是處理前端 HTTP 請求。
 
 Spring MVC 本質可以認為是對 servlet 的封裝，簡化了我們 serlvet 的開發
 
@@ -123,7 +123,7 @@ Spring MVC 本質可以認為是對 servlet 的封裝，簡化了我們 serlvet 
 
 - ViewResolver
 
-	ViewResolver 即視圖解析器，⽤於將 String 類型的視圖名和 Locale 解析為 View 類型的視圖，只有⼀個 resolveViewName()⽅法。從⽅法的定義可以看出，Controller 層返回的 String 類型視圖名 viewName 最終會在這⾥被解析成為 View。 View 是⽤來渲染⻚⾯的，也就是說，它會將程序返回的參數和數據填⼊模板中，⽣成 html ⽂件。 ViewResolver 在這個過程主要完成兩件事情：ViewResolver 找到渲染所⽤的模板（第⼀件⼤事）和所⽤的技術（第⼆件⼤事，其實也就是找到視圖的類型，如 JSP）並填⼊參數。默認情況下，Spring MVC 會⾃動為我們配置⼀個 InternalResourceViewResolver,是針對 JSP 類型視圖的。
+	ViewResolver 即視圖解析器，⽤於將 String 類型的視圖名和 Locale 解析為 View 類型的視圖，只有⼀個 resolveViewName()⽅法。從⽅法的定義可以看出，Controller 層返回的 String 類型視圖名 viewName 最終會在這⾥被解析成為 View。 View 是⽤來渲染⻚⾯的，也就是說，它會將程序返回的參數和數據填⼊模板中，⽣成 HTML ⽂件。 ViewResolver 在這個過程主要完成兩件事情：ViewResolver 找到渲染所⽤的模板（第⼀件⼤事）和所⽤的技術（第⼆件⼤事，其實也就是找到視圖的類型，如 JSP）並填⼊參數。默認情況下，Spring MVC 會⾃動為我們配置⼀個 InternalResourceViewResolver,是針對 JSP 類型視圖的。
 
 - RequestToViewNameTranslator
 
@@ -184,7 +184,7 @@ System.out.println(age);
 	```java
 	/**
 	 *
-	 * SpringMVC 对原⽣ servlet api 的⽀持 url：/demo/handle02?id=1
+	 * SpringMVC 对原⽣ servlet API 的⽀持 url：/demo/handle02?id=1
 	 *
 	 * 如果要在 SpringMVC 中使⽤ servlet 原⽣对象，⽐如
 	HttpServletRequest\HttpServletResponse\HttpSession，直接在 Handler ⽅法形参中声
@@ -311,8 +311,8 @@ System.out.println(age);
 
 
 ## 第 4 節 對 Restful ⻛格請求⽀持
-- rest ⻛格請求是什麼樣的？
-- springmvc 對 rest ⻛格請求到底提供了怎樣的⽀持
+- REST ⻛格請求是什麼樣的？
+- springmvc 對 REST ⻛格請求到底提供了怎樣的⽀持
 	
 	是⼀個註解的使⽤@PathVariable，可以幫助我們從 uri 中取出參數
 
@@ -322,7 +322,7 @@ Restful 是⼀種 Web 軟件架構⻛格，它不是標準也不是協議，它�
 
 **什麼是 REST：**
 
-REST（英⽂：Representational State Transfer，簡稱 REST）描述了⼀個架構樣式的⽹絡系統， ⽐如 web 應⽤程序。它⾸次出現在 2000 年 Roy Fielding 的博⼠論⽂中，他是 HTTP 規範的主要編寫者之⼀。在⽬前主流的三種 Web 服務交互⽅案中，REST 相⽐於 SOAP（Simple Object Access protocol，簡單對象訪問協議）以及 XML-RPC 更加簡單明了，⽆論是對 URL 的處理還是對 Payload 的編碼，REST 都傾向於⽤更加簡單輕量的⽅法設計和實現。值得注意的是 REST 並沒有⼀個明確的標準，⽽更像是⼀種設計的⻛格。
+REST（英⽂：Representational State Transfer，簡稱 REST）描述了⼀個架構樣式的⽹絡系統， ⽐如 Web 應⽤程序。它⾸次出現在 2000 年 Roy Fielding 的博⼠論⽂中，他是 HTTP 規範的主要編寫者之⼀。在⽬前主流的三種 Web 服務交互⽅案中，REST 相⽐於 SOAP（Simple Object Access protocol，簡單對象訪問協議）以及 XML-RPC 更加簡單明了，⽆論是對 URL 的處理還是對 Payload 的編碼，REST 都傾向於⽤更加簡單輕量的⽅法設計和實現。值得注意的是 REST 並沒有⼀個明確的標準，⽽更像是⼀種設計的⻛格。
 
 它本身並沒有什麼實⽤性，其核⼼價值在於如何設計出符合 REST ⻛格的⽹絡接⼝。
 
@@ -348,13 +348,13 @@ HTTP 協議，是⼀個⽆狀態協議，即所有的狀態都保存在服務器
 
 rest 是⼀個 url 請求的⻛格，基於這種⻛格設計請求的 url
 
-沒有 rest 的話，原有的 url 設計
+沒有 REST 的話，原有的 url 設計
 
 http://localhost:8080/user/queryUserById.action?id=3
 
 url 中定義了動作（操作），參數具體鎖定到操作的是誰
 
-有了 rest ⻛格之後
+有了 REST ⻛格之後
 
 rest 中，認為互聯⽹中的所有東⻄都是資源，既然是資源就會有⼀個唯⼀的 uri 標識它，代表它
 
@@ -484,8 +484,8 @@ Spring MVC ⽀持 RESTful ⻛格請求，具體講的就是使⽤ @PathVariable 
 
 交互：兩個⽅向
 
-1) 前端到後台：前端 ajax 發送 json 格式字符串，後台直接接收為 pojo 參數，使⽤註解@RequstBody
-2) 後台到前端：後台直接返回 pojo 對象，前端直接接收為 json 對像或者字符串，使⽤註解@ResponseBody
+1) 前端到後台：前端 Ajax 發送 JSON 格式字符串，後台直接接收為 pojo 參數，使⽤註解@RequstBody
+2) 後台到前端：後台直接返回 pojo 對象，前端直接接收為 JSON 對像或者字符串，使⽤註解@ResponseBody
 
 ### 5.1 什麼是 Json
 Json 是⼀種與語⾔⽆關的數據交互格式，就是⼀種字符串，只是⽤特殊符號{}內表示對象、[]內表示數組、""內是屬性或值、：表示後者是前者的值
@@ -520,10 +520,10 @@ Json 是⼀種與語⾔⽆關的數據交互格式，就是⼀種字符串，只
 ```
 
 - 示例代码 
-	- 前端 jsp ⻚⾯及 js 代码
+	- 前端 jsp ⻚⾯及 JS 代码
 		```xml
 		<div>
-		 <h2>Ajax json 交互 </h2>
+		 <h2>Ajax JSON 交互 </h2>
 		 <fieldset>
 		 <input type="button" id="ajaxBtn" value="ajax 提交"/>
 		 </fieldset>
@@ -533,7 +533,7 @@ Json 是⼀種與語⾔⽆關的數據交互格式，就是⼀種字符串，只
 		```js
 		$(function () {
 		 $("#ajaxBtn").bind("click",function () {
-			 // 发送 ajax 请求
+			 // 发送 Ajax 请求
 			 $.ajax({
 				 url: '/demo/handle07',
 				 type: 'POST',

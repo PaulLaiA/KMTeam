@@ -488,7 +488,7 @@ MySQL 的默認隔離級別是：REPEATABLE READ
 
 查詢當前使⽤的隔離級別： select @@tx_isolation;
 
-設置 MySQL 事務的隔離級別： set session transaction isolation level xxx; （設置的是當前 mysql 連接會話的，並不是永久改變的）
+設置 MySQL 事務的隔離級別： set session transaction isolation level xxx; （設置的是當前 MySQL 連接會話的，並不是永久改變的）
 
 #### 5.1.4 事務的傳播⾏為
 事務往往在 service 層進⾏控制，如果出現 service 層⽅法 A 調⽤了另外⼀個 service 層⽅法 B，A 和 B ⽅法本身都已經被添加了事務控制，那麼 A 調⽤ B 的時候，就需要進⾏事務的⼀些協商，這就叫做事務的傳播⾏

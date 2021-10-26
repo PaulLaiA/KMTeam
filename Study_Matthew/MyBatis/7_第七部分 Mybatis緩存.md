@@ -318,13 +318,13 @@ mybatis 中還可以配置 userCache 和 flushCache 等配置項，userCache 是
 
 如上圖所示，在⼏個不同的服務器之間，我們使⽤第三⽅緩存框架，將緩存都放在這個第三⽅框架中, 然後⽆論有多少台服務器，我們都能從緩存中獲取數據。
 
-這⾥我們介紹 mybatis 與 redis 的整合。
+這⾥我們介紹 mybatis 與 Redis 的整合。
 
 剛剛提到過，mybatis 提供了⼀個 eache 接⼝，如果要實現⾃⼰的緩存邏輯，實現 cache 接⼝開發即可。
 
 mybati s 本身默認實現了⼀個，但是這個緩存的實現⽆法實現分佈式緩存，所以我們要⾃⼰來實現。
 
-redis 分佈式緩存就可以，mybatis 提供了⼀個針對 cache 接⼝的 redis 實現類，該類存在 mybatis-redis 包中實現：
+redis 分佈式緩存就可以，mybatis 提供了⼀個針對 cache 接⼝的 Redis 實現類，該類存在 mybatis-redis 包中實現：
 
 1. pom ⽂件
 ```xml
