@@ -1,5 +1,5 @@
 ---
-Date: 2021-10-22
+date: 2021-10-22
 aliases: []
 ---
 
@@ -13,7 +13,7 @@ aliases: []
 
 **Type** 	:: #Node 
 
-**ParentNode** :: [[Study_dPaul]]
+**ParentNode** :: [[Study_dPaul/Study_dPaul]]
 
 ---
 
@@ -22,6 +22,7 @@ aliases: []
 ```dataview
 table 	Title,Author,Classification,Status,Type,Topics,Previous
 from 	"Study_dPaul"
-where 	contains(ParentNode , [[Golang]]) and contains(Type , "#Node")
+where 	contains(ParentNode , [[Study_dPaul/Golang/Golang]]) 
+and 	contains(Type , "#Node")
 sort 	file.name asc
 ```

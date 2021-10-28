@@ -582,7 +582,7 @@ public Object execute(SqlSession sqlSession, Object[] args) {
 		 result = rowCountResult(sqlSession.insert(command.getName(), param));
 		 break;
 	 }
-	 case UPDATE: {
+	 case UPdate: {
 		 //转换参数
 		 Object param = method.convertArgsToSqlCommandParam(args);
 		 // 转换 rowCount

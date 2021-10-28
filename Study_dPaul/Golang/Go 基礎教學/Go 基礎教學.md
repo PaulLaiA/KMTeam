@@ -1,5 +1,5 @@
 ---
-Date: 2021-10-22
+date: 2021-10-22
 aliases: []
 ---
 
@@ -13,7 +13,7 @@ aliases: []
 
 **Type** :: #Node
 
-**ParentNode** :: [[Golang]]
+**ParentNode** :: [[Study_dPaul/Golang/Golang]]
 
 ---
 
