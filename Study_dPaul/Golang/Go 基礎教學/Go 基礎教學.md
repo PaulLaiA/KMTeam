@@ -28,14 +28,5 @@ and 	(date(file.ctime)-date(today)) > 7
 sort	file.name
 ```
 
-**本周新建**
-
-```dataview
-list 	Status+" - "+Title
-from 	"Study_dPaul"
-where 	contains(ParentNode , [[Go 基礎教學]])
-and		(date(file.ctime)-date(today)) < 7
-sort	file.name
-```
-
+**Go - 基礎教學**
 ![[View - Go - 基礎教學#Go - 基礎教學]]

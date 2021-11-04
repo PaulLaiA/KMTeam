@@ -21,4 +21,5 @@ aliases: []
 list Status+" - "+Title
 from ""
 where contains(ParentNode,[[Study_dPaul/Docker/Docker 范例/Docker 范例]])
+sort file.name
 ```

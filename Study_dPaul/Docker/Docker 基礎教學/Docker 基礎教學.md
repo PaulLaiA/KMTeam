@@ -18,7 +18,7 @@ aliases: []
 ---
 
 ```dataview
-list Title
+list Status+" - "+Title
 from ""
 where contains(ParentNode,[[Study_dPaul/Docker/Docker 基礎教學/Docker 基礎教學]])
 and 	contains(Type , "#Note")
