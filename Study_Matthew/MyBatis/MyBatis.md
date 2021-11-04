@@ -5,7 +5,7 @@ aliases: []
 
 # Metadata
 
-**Title** :: Study_Matthew
+**Title** :: MyBatis
 
 **Author** :: #Matthew 
 
@@ -13,11 +13,13 @@ aliases: []
 
 **Type** :: #Node
 
+**ParentNode** :: [[Study_Matthew/Study_Matthew|Matthew]]
+
 ---
 
 ```dataview
-list Status + " - " + Title from ""
-where contains(ParentNode,[[Study_Matthew/Study_Matthew]])
+list from ""
+where contains(ParentNode,[[Study_Matthew/MyBatis/MyBatis|MyBatis]])
 and !contains(file.name,"107")
 sort file.name
 ```

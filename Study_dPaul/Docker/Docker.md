@@ -13,7 +13,7 @@ aliases: []
 
 **Type** :: #Node
 
-**ParentNode** :: [[Study_dPaul]]
+**ParentNode** :: [[Study_dPaul/Study_dPaul]]
 
 ---
 

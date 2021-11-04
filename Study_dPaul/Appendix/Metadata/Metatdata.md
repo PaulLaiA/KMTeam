@@ -26,8 +26,6 @@ MetaData 作爲描述文件的基本信息,它應該具備以下特徵
 - 筆記基礎信息 ( Note )
 	- 筆記狀態 ( Status )
 	- 筆記類型 ( Type )
-	- 筆記的主題 ( Topics )
-	- 筆記的創建時間 ( Date )
 	- 上一篇筆記 ( Previous )
 - 父信息 ( ParentNode )
 ---

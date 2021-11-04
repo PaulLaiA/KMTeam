@@ -20,7 +20,7 @@ aliases: []
 ---
 
 ```dataview
-table Title,Author,Classification,Status,Type,Topics,Previous,ParentNode
+table Title,Author,Classification,Type
 from "Template"
 where !contains(file.name,"Template")
 sort file.name
