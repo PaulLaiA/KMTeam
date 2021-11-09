@@ -888,9 +888,7 @@
 > Go 中切片扩容的策略是这样的：
 
 -   首先判断，如果新申请容量大于 2 倍的旧容量，最终容量就是新申请的容量
-
 -   否则判断，如果旧切片的长度小于 1024，则最终容量就是旧容量的两倍
-
 -   否则判断，如果旧切片长度大于等于
     > 1024，则最终容量从旧容量开始循环增加原来的 1/4,
     > 直到最终容量大于等于新申请的容量
@@ -915,26 +913,13 @@
 
 ## 24、Golang 的参数传递、引用类型
 
-> Go
-> 语言中**所有的传参都是值传递**（传值），都是一个副本，一个拷贝。因为拷贝的内容有时候是非引用类型（int、string、struct
-> 等这些），这样就在函数中就无法修改原内容数据；有的是**引用类型**（**指针、map、slice、chan**
-> 等
->
-> 这些），这样就可以修改原内容数据。
->
-> Golang 的引用类型包括 slice、map 和
-> channel。它们有复杂的内部结构，除了申请内存外，还需要初始化相关属性。内置函数
-> new 计算类型大小，为其分配零值内存，返回指针。而 make
-> 会被编译器翻译成具体的创建函数，由其分配内存和初始化成员结构，返回对象而非指针。
+Go
+语言中**所有的传参都是值传递**（传值），都是一个副本，一个拷贝。因为拷贝的内容有时候是非引用类型（int、string、struct 等这些），这样就在函数中就无法修改原内容数据；有的是**引用类型**（**指针、map、slice、chan**等这些），这样就可以修改原内容数据。
+
+Golang 的引用类型包括 slice、map 和 channel。它们有复杂的内部结构，除了申请内存外，还需要初始化相关属性。内置函数 new 计算类型大小，为其分配零值内存，返回指针。而 make 会被编译器翻译成具体的创建函数，由其分配内存和初始化成员结构，返回对象而非指针。
 
 ## 25、Golang Map 底层实现
-
-> 
-> Golang 中 map
-> 的底层实现是一个散列表，因此实现 map
-> 的过程实际上就是实现散表的过程。在这个散列表中，主要出现的结构体有两个，一个叫
-> hmap(a header for a Go map)，一个叫 bmap(a bucket for a Go
-> map，通常叫其 bucket)。
+Golang 中 map 的底层实现是一个散列表，因此实现 map 的过程实际上就是实现散表的过程。在这个散列表中，主要出现的结构体有两个，一个叫 hmap(a header for a Go map)，一个叫 bmap(a bucket for a Gomap，通常叫其 bucket)。
 
 ## 26、Golang Map 如何扩容
 
@@ -976,45 +961,38 @@
 
 ## 28、介绍一下 Channel
 
-> Go 语言中，不要通过共享内存来通信，而要通过通信来实现内存共享。Go
-> 的 CSP(Communicating Sequential
-> Process)并发模型，中文可以叫做通信顺序进程，是通过 Goroutine 和
-> channel 来实现的。
->
-> 所以 channel 收发遵循先进先出 FIFO，分为有缓存和无缓存，channel
-> 中大致有 buffer(当缓冲区大小部位 0 时，是个 ring buffer)、sendx 和
-> recvx 收发的位置(ring buffer 记录实现)、sendq、recvq 当前 channel
-> 因为缓冲区不足而阻塞的队列、使用双向链表存储、还有一个 mutex
-> 锁控制并发、其他原属等。
+Go 语言中，不要通过共享内存来通信，而要通过通信来实现内存共享。Go
+的 CSP(Communicating Sequential
+Process)并发模型，中文可以叫做通信顺序进程，是通过 Goroutine 和
+channel 来实现的。
+
+所以 channel 收发遵循先进先出 FIFO，分为有缓存和无缓存，channel
+中大致有 buffer(当缓冲区大小部位 0 时，是个 ring buffer)、sendx 和
+recvx 收发的位置(ring buffer 记录实现)、sendq、recvq 当前 channel
+因为缓冲区不足而阻塞的队列、使用双向链表存储、还有一个 mutex
+锁控制并发、其他原属等。
 
 ## 29、Go 语言的 Channel 特性？
 
 1.  给一个 nil channel 发送数据，造成永远阻塞
-
 2.  从一个 nil channel 接收数据，造成永远阻塞
-
 3.  给一个已经关闭的 channel 发送数据，引起 panic
-
 4.  从一个已经关闭的 channel 接收数据，如果缓冲区中为空，则返回一个零值
-
 5.  无缓冲的 channel 是同步的，而有缓冲的 channel 是非同步的
-
 6.  关闭一个 nil channel 将会发生 panic
 
 ## 30、Channel 的 ring buffer 实现
 
-> 
-> ![](media/image3.png){width="5.703888888888889in"
-> height="1.6736111111111112in"}channel 中使用了 ring buffer(环形缓冲区)
-> 来缓存写入的数据。ring buffer 有很多好处，而且非常适合用来实现 FIFO
-> 式的固定长度队列。在 channel 中，ring buffer 的实现如下：
->
-> hchan 中有两个与 buffer 相关的变量:recvx 和 sendx。其中 sendx
-> 表示 buffer 中可写的 index，recvx 表示 buffer 中可读的 index。 从 recvx
-> 到 sendx 之间的元素，表示已正常存放入 buffer 中的数据。
->
-> 我们可以直接使用 buf\[recvx\]来读取到队列的第一个元素，使用
-> buf\[sendx\] = x 来将元素放到队尾。
+channel 中使用了 ring buffer(环形缓冲区)
+ 来缓存写入的数据。ring buffer 有很多好处，而且非常适合用来实现 FIFO
+ 式的固定长度队列。在 channel 中，ring buffer 的实现如下：
+
+ hchan 中有两个与 buffer 相关的变量:recvx 和 sendx。其中 sendx
+ 表示 buffer 中可写的 index，recvx 表示 buffer 中可读的 index。 从 recvx
+ 到 sendx 之间的元素，表示已正常存放入 buffer 中的数据。
+
+ 我们可以直接使用 buf\[recvx\]来读取到队列的第一个元素，使用
+ buf\[sendx\] = x 来将元素放到队尾。
 
 # Go 并发编程
 
@@ -3356,7 +3334,7 @@ height="1.9193744531933508in"}
 
 ## 3、Redis 和 Memcached 的区别
 
-> Redis 拥有更多的数据结构和丰富的数据操作 redis 内存利用率高于 memcached
+> Redis 拥有更多的数据结构和丰富的数据操作 Redis 内存利用率高于 memcached
 >
 > Redis 是单线程，memcached 是多线程，在存储大数据的情况下，redis 比
 >
