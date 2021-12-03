@@ -1,11 +1,24 @@
 ---
-界: Framework
-門: MyBatis
-綱: 
-tags: ["#MyBatis","#BQ"]
-aliases:
-  - 
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-11-04
+aliases: ["Mybatis架構原理"]
+---
+
+# Metadata
+
+**Title** :: 自定義持久層框架
+
+**Author** :: #Matthew 
+
+**Classification** :: #Learn #Java #Basic
+
+**Status** :: #🌱
+
+**Type** :: #Note
+
+**Previous** ::[[Study_Matthew/MyBatis/8_第八部分 Mybatis插件]]
+
+**ParentNode** :: [[Study_Matthew/MyBatis/MyBatis|MyBatis]]
+
 ---
 
 

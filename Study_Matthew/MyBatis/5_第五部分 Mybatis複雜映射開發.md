@@ -1,13 +1,25 @@
 ---
-界: Framework
-門: MyBatis
-綱: 
-tags: ["#MyBatis","#BQ"]
-aliases:
-  - 
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-11-04
+aliases: ["Mybatis複雜映射開發"]
 ---
 
+# Metadata
+
+**Title** :: 自定義持久層框架
+
+**Author** :: #Matthew 
+
+**Classification** :: #Learn #Java #Basic
+
+**Status** :: #🌱
+
+**Type** :: #Note
+
+**Previous** ::[[Study_Matthew/MyBatis/4_第四部分 Mybatis配置⽂件深⼊]]
+
+**ParentNode** :: [[Study_Matthew/MyBatis/MyBatis|MyBatis]]
+
+---
 # 第五部分：Mybatis 複雜映射開發
 
 ## 5.1 一對一查詢

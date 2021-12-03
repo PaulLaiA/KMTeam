@@ -1,12 +1,26 @@
 ---
-界: Spring Framework
-门: Spring
-纲: 
-tags: ["#SpringFramework/#Spring","#IOC","#Note"]
-aliases:
-  - 
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-11-24
+aliases: []
 ---
+
+# Metadata
+
+**Title** :: Spring
+
+**Author** :: #Matthew 
+
+**Classification** :: #Learn #Java #Basic #Spring
+
+**Status** :: #🌱
+
+**Type** :: #Note
+
+**Previous** ::[[Study_Matthew/Spring/3_第三部分 手寫實現IoC 和 AOP]]
+
+**ParentNode** :: [[Study_Matthew/Spring/Spring|Spring]]
+
+---
+
 
 # 第四部分 Spring IoC 應用
 

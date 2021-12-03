@@ -1,16 +1,27 @@
 ---
-界: Spring Framework
-门: Spring
-纲: 
-tags: ["#SpringFramework/#Spring","#IOC","#AOP","#Note"]
-aliases:
-  - 
-parentNote: 
-  - "[[第二部分 核心思想]]"
-childrenNote: 
-  - "[[第四部分 Spring IOC 應用]]"
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-11-24
+aliases: []
 ---
+
+# Metadata
+
+**Title** :: Spring
+
+**Author** :: #Matthew 
+
+**Classification** :: #Learn #Java #Basic #Spring
+
+**Status** :: #🌱
+
+**Type** :: #Note
+
+**Previous** ::[[Study_Matthew/Spring/5_第五部分 Spring IOC 源碼深度剖析]]
+
+**ParentNode** :: [[Study_Matthew/Spring/Spring|Spring]]
+
+---
+
+
 
 # 第六部分：Spring AOP 應用
 AOP 本質：在不改變原有業務邏輯的情況下增強橫切邏輯，橫切邏輯代碼往往是權限校驗代碼、⽇志代碼、事務控制代碼、性能監控代碼。

@@ -1,16 +1,27 @@
 ---
-界: Spring Framework
-门: Spring
-纲: 
-tags: ["#SpringFramework/#Spring","#IOC","#AOP","#Note"]
-aliases:
-  - 
-parentNote: 
-  - 
-childrenNote: 
-  - "[[第二部分 核心思想]]"
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-11-24
+aliases: []
 ---
+
+# Metadata
+
+**Title** :: Spring
+
+**Author** :: #Matthew 
+
+**Classification** :: #Learn #Java #Basic #Spring
+
+**Status** :: #🌱
+
+**Type** :: #Note
+
+**Previous** ::
+
+**ParentNode** :: [[Study_Matthew/Spring/Spring|Spring]]
+
+---
+
+
 
 # 第一部分 Spring 概述
 ## 第 1 節 Spring 簡介

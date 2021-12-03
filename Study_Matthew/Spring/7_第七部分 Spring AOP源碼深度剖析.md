@@ -1,16 +1,27 @@
 ---
-界: Spring Framework
-门: Spring
-纲: 
-tags: ["#SpringFramework/#Spring","#IOC","#AOP","#Note"]
-aliases:
-  - 
-parentNote: 
-  - "[[第二部分 核心思想]]"
-childrenNote: 
-  - "[[第四部分 Spring IOC 應用]]"
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-11-24
+aliases: []
 ---
+
+# Metadata
+
+**Title** :: Spring
+
+**Author** :: #Matthew 
+
+**Classification** :: #Learn #Java #Basic #Spring
+
+**Status** :: #🌱
+
+**Type** :: #Note
+
+**Previous** ::[[Study_Matthew/Spring/6_第六部分 Spring AOP 應用]]
+
+**ParentNode** :: [[Study_Matthew/Spring/Spring|Spring]]
+
+---
+
+
 
 # 7_第七部分： Spring AOP 源碼深度剖析
 

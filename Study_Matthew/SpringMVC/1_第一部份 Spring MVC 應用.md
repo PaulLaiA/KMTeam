@@ -1,12 +1,26 @@
 ---
-界: Spring Framework
-门: Spring
-纲: 
-tags: ["#SpringFramework/#SpringMVC","#MVC","#Note"]
-aliases:
-  - 
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-11-24
+aliases: []
 ---
+
+# Metadata
+
+**Title** :: SpringMVC
+
+**Author** :: #Matthew 
+
+**Classification** :: #Learn #Java #Basic #SpringMVC
+
+**Status** :: #🌱
+
+**Type** :: #Note
+
+**Previous** ::
+
+**ParentNode** :: [[Study_Matthew/SpringMVC/SpringMVC|SpringMVC]]
+
+---
+
 # 第一部份 Spring MVC 應用
 
 ## 第 1 節 Spring MVC 簡介

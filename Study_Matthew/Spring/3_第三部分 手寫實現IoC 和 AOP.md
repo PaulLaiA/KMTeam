@@ -1,16 +1,27 @@
 ---
-界: Spring Framework
-门: Spring
-纲: 
-tags: ["#SpringFramework/#Spring","#IOC","#AOP","#Note"]
-aliases:
-  - 
-parentNote: 
-  - "[[第二部分 核心思想]]"
-childrenNote: 
-  - "[[第四部分 Spring IOC 應用]]"
-date: {{DATE:YYYY-MM-DD}}
+date: 2021-11-24
+aliases: []
 ---
+
+# Metadata
+
+**Title** :: Spring
+
+**Author** :: #Matthew 
+
+**Classification** :: #Learn #Java #Basic #Spring
+
+**Status** :: #🌱
+
+**Type** :: #Note
+
+**Previous** ::[[Study_Matthew/Spring/2_第二部分 核心思想]]
+
+**ParentNode** :: [[Study_Matthew/Spring/Spring|Spring]]
+
+---
+
+
 # 第三部分 手寫實現 IoC 和 AOP
 
 上⼀部分我們理解了 IoC 和 AOP 思想，我們先不考慮 Spring 是如何實現這兩個思想的，此處準備了⼀個『銀⾏轉賬』的案例，請分析該案例在代碼層次有什麼問題 ？分析之後使⽤我們已有知識解決這些問題（痛點）。其實這個過程我們就是在⼀步步分析並⼿寫實現 IoC 和 AOP。
